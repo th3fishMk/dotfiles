@@ -32,7 +32,6 @@ APPS=(
     "io.github.peazip.PeaZip"
     "com.bitwarden.desktop"
     "org.audacityteam.Audacity"
-    "fr.handbrake.HandBrake"
     "se.sjoerd.Graphs"
     "com.google.Chrome"
     "page.codeberg.impromptux.ytdl-gui"
