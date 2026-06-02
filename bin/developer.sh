@@ -27,7 +27,13 @@ curl -f https://zed.dev/install.sh | sh
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cargo install create-tauri-app --locked
 
-# Create a tauri app:
-# cargo create-tauri-app
+# Unity
+sudo yum update -y
+sudo yum install unityhub -y
+# vscode
+sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
+echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo > /dev/null
+sudo dnf install code -y
+sudo dnf install dotnet-sdk-10.0 -y
 
 echo -e "\n========================================================="
