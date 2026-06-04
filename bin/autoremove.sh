@@ -3,9 +3,9 @@
 # Ensure script is run as a normal user, not as root directly,
 # since we need to accurately target your home directory (~).
 if [ "$EUID" -eq 0 ]; then
-  echo "Error: Please run this script as your regular user (without sudo)."
-  echo "The script will ask for sudo when it needs to remove system packages."
-  exit 1
+	echo "Error: Please run this script as your regular user (without sudo)."
+	echo "The script will ask for sudo when it needs to remove system packages."
+	exit 1
 fi
 
 echo "========================================================="
@@ -22,8 +22,8 @@ sudo dnf remove -y code code-insiders codium
 
 # Remove Paul Carroty's vscodium repository file if it exists
 if [ -f /etc/yum.repos.d/vscodium.repo ]; then
-    echo "Removing VSCodium third-party repository file..."
-    sudo rm /etc/yum.repos.d/vscodium.repo
+	echo "Removing VSCodium third-party repository file..."
+	sudo rm /etc/yum.repos.d/vscodium.repo
 fi
 
 # Clean DNF cache to completely clear out metadata
@@ -34,14 +34,14 @@ sudo dnf clean all
 # ---------------------------------------------------------------------
 echo -e "\n--> Checking for and removing Flatpak installations..."
 
-if command -v flatpak &> /dev/null; then
-    # Uninstall apps if they exist
-    flatpak uninstall -y com.visualstudio.code 2>/dev/null || true
-    flatpak uninstall -y com.vscodium.codium 2>/dev/null || true
-    # Remove any leftover unused flatpak runtimes/runtimes cache
-    flatpak uninstall --unused -y
+if command -v flatpak &>/dev/null; then
+	# Uninstall apps if they exist
+	flatpak uninstall -y com.visualstudio.code 2>/dev/null || true
+	flatpak uninstall -y com.vscodium.codium 2>/dev/null || true
+	# Remove any leftover unused flatpak runtimes/runtimes cache
+	flatpak uninstall --unused -y
 else
-    echo "Flatpak is not installed, skipping..."
+	echo "Flatpak is not installed, skipping..."
 fi
 
 # ---------------------------------------------------------------------
@@ -83,13 +83,13 @@ rm -rf ~/.node-gyp
 
 # Strip out the NVM configuration lines from bash/zsh profiles
 for profile in "$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.zshrc"; do
-    if [ -f "$profile" ]; then
-        echo "Removing NVM environment setup lines from $profile..."
-        # This filters out the lines containing NVM_DIR or nvm.sh/bash_completion blocks
-        sed -i '/NVM_DIR/d' "$profile"
-        sed -i '/nvm\.sh/d' "$profile"
-        sed -i '/bash_completion/d' "$profile"
-    fi
+	if [ -f "$profile" ]; then
+		echo "Removing NVM environment setup lines from $profile..."
+		# This filters out the lines containing NVM_DIR or nvm.sh/bash_completion blocks
+		sed -i '/NVM_DIR/d' "$profile"
+		sed -i '/nvm\.sh/d' "$profile"
+		sed -i '/bash_completion/d' "$profile"
+	fi
 done
 
 # ---------------------------------------------------------------------

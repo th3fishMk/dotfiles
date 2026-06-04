@@ -11,20 +11,20 @@ alias update-dotfiles-force="cd \$HOME/.dotfiles && git fetch --all && git reset
 alias update="sudo dnf upgrade --refresh -y"
 
 sysUp() {
-    echo "=== Starting System Update ==="
+	echo "=== Starting System Update ==="
 
-    echo "--- Checking DNF Packages ---"
-    sudo dnf upgrade --refresh -y
-    echo "+++ DNF update complete"
+	echo "--- Checking DNF Packages ---"
+	sudo dnf upgrade --refresh -y
+	echo "+++ DNF update complete"
 
-    if command -v flatpak &> /dev/null; then
-        echo "--- Checking Flatpak Packages ---"
-        flatpak update -y
-        echo "+++ Flatpak update complete"
-    fi
+	if command -v flatpak &>/dev/null; then
+		echo "--- Checking Flatpak Packages ---"
+		flatpak update -y
+		echo "+++ Flatpak update complete"
+	fi
 
-    echo "--- Cleaning Up System Tmp/Cache ---"
-    sudo dnf autoremove -y
+	echo "--- Cleaning Up System Tmp/Cache ---"
+	sudo dnf autoremove -y
 
-    echo "=== All updates finished successfully ==="
+	echo "=== All updates finished successfully ==="
 }
