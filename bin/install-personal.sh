@@ -1,6 +1,4 @@
 #!/bin/bash
-#!/bin/bash
-# Usage: sh ./personal_apps.sh
 
 echo "Today is $(date)"
 echo "Configuring your personal desktop applications..."
@@ -14,9 +12,9 @@ echo -e "\n--> Installing native multimedia codecs and host system apps..."
 # Enable RPM Fusion if not already done (required for clean, hardware-accelerated media)
 sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
-sudo dnf install -y steam meld
+sudo dnf install -y steam meld obs-studio obs-studio-plugin-x264 obs-studio-plugin-distroav
 
-echo "Initializing Flatpak application suite installation..."
+echo "Installing flatpaks"
 
 APPS=(
 	"org.onlyoffice.desktopeditors"
@@ -48,9 +46,9 @@ APPS=(
 	"org.darktable.Darktable"
 	"org.mixxx.Mixxx"
 	"org.upscayl.Upscayl"
-	"com.obsproject.Studio"
 	"net.blockbench.Blockbench"
 	"org.octave.Octave"
+	# "com.obsproject.Studio" # swapped for system install
 )
 
 for APP in "${APPS[@]}"; do
