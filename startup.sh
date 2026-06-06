@@ -54,7 +54,7 @@ link_config "$DOTFILES_DIR/bash/.bash_aliases" "$HOME/.bash_aliases"
 link_config "$DOTFILES_DIR/bash/.bash_functions" "$HOME/.bash_functions"
 
 # 5. Rename the Hostname
-echo "Configuring system identity..."
+echo "Configuring system name..."
 
 # Initialize choice variable
 RENAME_CHOICE=""
@@ -86,7 +86,7 @@ if [[ "$RENAME_CHOICE" == "y" || "$RENAME_CHOICE" == "yes" ]]; then
 		sudo bash -c "echo '127.0.0.1 $NEW_HOSTNAME' >> /etc/hosts"
 	fi
 else
-	echo "Skipping hostname configuration, keeping default."
+	echo "Skipping hostname configuration, keeping default or current."
 fi
 
 echo "===================================================="

@@ -10,7 +10,7 @@ fi
 # User Environment & PATH Adjustments
 # ====================================================================
 # Prevent duplicate prepends if bashrc is sourced multiple times
-if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
+if ! [[ "$PATH" =~ $HOME/.local/bin:$HOME/bin: ]]; then
 	PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
@@ -43,10 +43,6 @@ fi
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
-# ====================================================================
-# Source Modular Custom Dotfiles
-# ====================================================================
-# This pulls your custom aliases and functions dynamically from your repo folder
 if [ -f "$HOME/.bash_aliases" ]; then
 	. "$HOME/.bash_aliases"
 fi
@@ -65,9 +61,6 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
-# ====================================================================
-# Dynamic Prompt & Git Branch Integration
-# ====================================================================
 parse_git_branch() {
 	# Fail fast if outside a git repository
 	git rev-parse --is-inside-work-tree &>/dev/null || return
@@ -108,7 +101,7 @@ export PATH
 
 # Render prompt strings safely with optimized terminal coloring sequences
 build_prompt() {
-	local exit_status=$?
+	# local exit_status=$?
 	local info color branch prefix state symbol
 
 	info=$(parse_git_branch)
@@ -146,3 +139,10 @@ case ":$PATH:" in
 *) export PATH="$PNPM_HOME/bin:$PATH" ;;
 esac
 # pnpm end
+
+# fnm
+FNM_PATH="/home/th3fishmk/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+	export PATH="$FNM_PATH:$PATH"
+	eval "$(fnm env --shell bash)"
+fi
