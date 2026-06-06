@@ -1,15 +1,15 @@
 #!/bin/bash
-# Usage: ./clone_all_repos.sh <github-username> <destination-dir>
+# Usage: ././git-clone <github-username> <destination-dir>
 # Clones all the repos (up to 1000) from one github user, or organization
-# Into a specific dir, using HTTPS
+# Into a specific dir, using SSH
 
 USER=${1:?Please provide a GitHub username}
 DEST=${2:?Please provide a destination directory}
 
 mkdir -p "$DEST"
 
-# Fetch all repository HTTPS URLs of the user
-repos=$(gh repo list "$USER" --limit 1000 --json name,url -q '.[].url')
+# Fetch all repository names of the user
+repos=$(gh repo list "$USER" --limit 1000 --json name,sshUrl -q '.[].sshUrl')
 
 if [ -z "$repos" ]; then
 	echo "No repositories found for user: $USER"
