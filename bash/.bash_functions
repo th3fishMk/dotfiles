@@ -36,3 +36,20 @@ quick_commit() {
 	git commit -m "$message"
 	git push
 }
+
+# 5. Update dnf and flatpak
+sysUp() {
+	echo "=== Starting System Update ==="
+
+	echo "--- Checking DNF Packages ---"
+	sudo dnf upgrade -y
+	echo "+++ DNF update complete"
+
+	if command -v flatpak &>/dev/null; then
+		echo "--- Checking Flatpak Packages ---"
+		flatpak update -y
+		echo "+++ Flatpak update complete"
+	fi
+
+	echo "=== All updates finished successfully ==="
+}
