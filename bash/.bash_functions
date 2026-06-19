@@ -268,3 +268,90 @@ special_rename() {
 	echo "--------------------------------"
 	echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
 }
+gather_files_by_ext() {
+	# 1. Validate that all 3 parameters are passed
+	if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+		echo "Error: Missing arguments." >&2
+		echo "Usage: gather_files_by_ext <source_dir> <extension> <dest_dir>" >&2
+		return 1
+	fi
+
+	local SRC_DIR="$1"
+	local EXT="$2"
+	local DEST_DIR="$3"
+
+	# 2. Validate source directory existence
+	if [ ! -d "$SRC_DIR" ]; then
+		echo "Error: Source path '$SRC_DIR' is not a valid directory." >&2
+		return 1
+	fi
+
+	# Strip a leading dot from the extension if the user typed ".jpg" instead of "jpg"
+	EXT="${EXT#.}"
+
+	echo "Gathering all '*.$EXT' files from '$SRC_DIR' into '$DEST_DIR'..."
+	echo "------------------------------------------------"
+
+	# Initialize metric counters
+	local scanned_dirs=0
+	local scanned_subdirs=0
+	local moved_files=0
+	local skipped_files=0
+
+	# 3. Handle destination directory creation/validation safely inside the loop logic
+	# We do a lazy creation right before moving the first file, or explicitly here:
+	if [ ! -d "$DEST_DIR" ]; then
+		if mkdir -p "$DEST_DIR" 2>/dev/null; then
+			echo "[INFO] Created destination directory: '$DEST_DIR'"
+		else
+			echo "Error: Failed to create destination directory '$DEST_DIR'." >&2
+			return 1
+		fi
+	fi
+
+	# Convert paths to absolute to prevent path-matching confusion during recursion
+	local ABS_SRC=$(cd "$SRC_DIR" && pwd)
+	local ABS_DEST=$(cd "$DEST_DIR" && pwd)
+
+	# Count source directories first
+	# Total directories minus 1 (the root itself) gives us the subdirectories count
+	local total_dirs=$(find "$ABS_SRC" -type d | wc -l)
+	if [ "$total_dirs" -gt 0 ]; then
+		scanned_dirs=1
+		scanned_subdirs=$((total_dirs - 1))
+	fi
+
+	# Loop through all files matching the target extension recursively
+	while IFS= read -r -d '' file; do
+		local base_name=$(basename "$file")
+		local target_dest="$ABS_DEST/$base_name"
+
+		# Prevent a file from moving into itself if destination is inside source
+		if [ "$file" = "$target_dest" ]; then
+			echo "[SKIPPED]  '$base_name' (File is already at the destination)"
+			((skipped_files++))
+			continue
+		fi
+
+		# Execute safe move
+		if [ -e "$target_dest" ]; then
+			echo "[SKIPPED]  '$base_name' (Target already exists in destination folder)"
+			((skipped_files++))
+		else
+			mv "$file" "$target_dest"
+			echo "[MOVED]    '$file' -> '$target_dest'"
+			((moved_files++))
+		fi
+
+	done < <(find "$ABS_SRC" -type f -name "*.$EXT" -print0)
+
+	# Clean summary report
+	echo "------------------------------------------------"
+	echo "Done! Summary:"
+	echo "  - Scanned Root Dir: $scanned_dirs"
+	echo "  - Scanned Sub-Dirs: $scanned_subdirs"
+	echo "  - Moved Files:      $moved_files"
+	if [ "$skipped_files" -gt 0 ]; then
+		echo "  - Skipped Files:    $skipped_files"
+	fi
+}
