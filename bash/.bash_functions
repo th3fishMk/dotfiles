@@ -55,7 +55,7 @@ sysUp() {
 }
 
 # removes all subdir in a file, moves the file and delete empty folders
-remove_subfolder() {
+special_remove_subfolder() {
 	# Default to the current directory if no argument is provided
 	local TARGET_DIR="${1:-.}"
 
@@ -80,11 +80,14 @@ remove_subfolder() {
 	# Using process substitution '< <(...)' at the bottom fixes the subshell counter trap
 	while IFS= read -r -d '' file; do
 		# Get the full directory of the file and the filename itself
-		local file_dir=$(dirname "$file")
-		local base_name=$(basename "$file")
+		local file_dir
+		file_dir=$(dirname "$file")
+		local base_name
+		base_name=$(basename "$file")
+		base_name
 
 		# Extract the relative path from the BASE_DIR to the file's directory
-		local rel_path="${file_dir#$BASE_DIR/}"
+		local rel_path="${file_dir#"$BASE_DIR"/}"
 
 		# Replace all slashes '/' in the relative path with '='
 		local prefix="${rel_path//\//=}"
@@ -122,7 +125,7 @@ remove_subfolder() {
 }
 
 # Remove invalid characters in files (except for =)
-clean_filename_chars() {
+special_filename_clean() {
 	# Default to the current directory if no argument is provided
 	local TARGET_DIR="${1:-.}"
 
@@ -148,12 +151,15 @@ clean_filename_chars() {
 			continue
 		fi
 
-		local dir=$(dirname "$item")
-		local base=$(basename "$item")
+		local dir
+		dir=$(dirname "$item")
+		local base
+		base=$(basename "$item")
 
 		# Strip any character that is NOT: a-z, A-Z, 0-9, _, =, ., or -
 		# Spaces are stripped now too!
-		local clean_base=$(echo -n "$base" | sed 's/[^a-zA-Z0-9_=.-]//g')
+		local clean_base
+		clean_base=$(echo -n "$base" | sed 's/[^a-zA-Z0-9_=.-]//g')
 
 		# Check if changes are needed
 		if [ "$base" != "$clean_base" ]; then
@@ -199,11 +205,11 @@ special_rename() {
 	local skipped_count=0
 	local no_change_count=0
 
-	# Process files inside the target directory that contain at least one '='
-	# We use process substitution '< <(...)' at the end to avoid the subshell loop trap
 	while IFS= read -r -d '' file; do
-		local dir=$(dirname "$file")
-		local base=$(basename "$file")
+		local dir
+		dir=$(dirname "$file")
+		local base
+		base=$(basename "$file")
 
 		# Extract the extension and convert to lowercase for matching
 		local extension="${base##*.}"
@@ -239,7 +245,8 @@ special_rename() {
 		fi
 
 		# Format the counter to 4 digits (e.g., 0000, 0001)
-		local current_count=$(printf "%04d" "${counters[$prefix]}")
+		local current_count
+		current_count=$(printf "%04d" "${counters[$prefix]}")
 
 		# Construct the final name: everything up to the last '=' + category + counter + extension
 		local new_base="${prefix}${category}${current_count}.${extension}"
@@ -268,6 +275,8 @@ special_rename() {
 	echo "--------------------------------"
 	echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
 }
+
+# Collects all the files with a specific extension, from a given dir, into another dir
 gather_files_by_ext() {
 	# 1. Validate that all 3 parameters are passed
 	if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
@@ -310,12 +319,15 @@ gather_files_by_ext() {
 	fi
 
 	# Convert paths to absolute to prevent path-matching confusion during recursion
-	local ABS_SRC=$(cd "$SRC_DIR" && pwd)
-	local ABS_DEST=$(cd "$DEST_DIR" && pwd)
+	local ABS_SRC
+	ABS_SRC=$(cd "$SRC_DIR" && pwd)
+	local ABS_DEST
+	ABS_DEST=$(cd "$DEST_DIR" && pwd)
 
 	# Count source directories first
 	# Total directories minus 1 (the root itself) gives us the subdirectories count
-	local total_dirs=$(find "$ABS_SRC" -type d | wc -l)
+	local total_dirs
+	total_dirs=$(find "$ABS_SRC" -type d | wc -l)
 	if [ "$total_dirs" -gt 0 ]; then
 		scanned_dirs=1
 		scanned_subdirs=$((total_dirs - 1))
@@ -323,7 +335,8 @@ gather_files_by_ext() {
 
 	# Loop through all files matching the target extension recursively
 	while IFS= read -r -d '' file; do
-		local base_name=$(basename "$file")
+		local base_name
+		base_name=$(basename "$file")
 		local target_dest="$ABS_DEST/$base_name"
 
 		# Prevent a file from moving into itself if destination is inside source
