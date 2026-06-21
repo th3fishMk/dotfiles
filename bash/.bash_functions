@@ -368,3 +368,52 @@ gather_files_by_ext() {
 		echo "  - Skipped Files:    $skipped_files"
 	fi
 }
+
+validate_naming() {
+	local target_dir="${1:-.}"
+	local good_items=()
+	local bad_items=()
+
+	# Ensure the target directory exists
+	if [[ ! -d "$target_dir" ]]; then
+		echo "Error: Directory '$target_dir' does not exist."
+		return 1
+	fi
+
+	# Read all files and directories recursively
+	while IFS= read -r -d '' item; do
+		local name
+		name=$(basename "$item")
+
+		if [[ -d "$item" ]]; then
+			# Folders: strictly letters, numbers, and underscores (no periods)
+			if [[ "$name" =~ ^[a-zA-Z0-9_]+$ ]]; then
+				good_items+=("$item (dir)")
+			else
+				bad_items+=("$item (dir)")
+			fi
+		else
+			# Files: letters, numbers, underscores, and periods allowed
+			if [[ "$name" =~ ^[a-zA-Z0-9_.]+$ ]]; then
+				good_items+=("$item (file)")
+			else
+				bad_items+=("$item (file)")
+			fi
+		fi
+	done < <(find "$target_dir" -mindepth 1 -print0 2>/dev/null)
+
+	# ANSI Color Codes
+	local GREEN='\033[0;32m'
+	local RED='\033[0;31m'
+	local NC='\033[0m' # No Color
+
+	# Print valid items first
+	for item in "${good_items[@]}"; do
+		echo -e "${GREEN}[VALID]   ${item}${NC}"
+	done
+
+	# Print invalid items last
+	for item in "${bad_items[@]}"; do
+		echo -e "${RED}[INVALID] ${item}${NC}"
+	done
+}
