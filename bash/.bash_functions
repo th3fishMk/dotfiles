@@ -72,19 +72,19 @@ special_remove_subfolder() {
 	echo "Flattening directory: $BASE_DIR"
 	echo "--------------------------------"
 
-	# Counters for the final round-up report
+	# Counters and loop variables declared locally
 	local renamed_count=0
 	local skipped_count=0
+	local deleted_dirs_count=0
+	local file
+	local empty_dir
 
 	# 1. Move and rename files from subdirectories
-	# Using process substitution '< <(...)' at the bottom fixes the subshell counter trap
 	while IFS= read -r -d '' file; do
-		# Get the full directory of the file and the filename itself
 		local file_dir
 		file_dir=$(dirname "$file")
 		local base_name
 		base_name=$(basename "$file")
-		base_name
 
 		# Extract the relative path from the BASE_DIR to the file's directory
 		local rel_path="${file_dir#"$BASE_DIR"/}"
@@ -111,13 +111,11 @@ special_remove_subfolder() {
 	echo "--------------------------------"
 	echo "Cleaning up empty subdirectories..."
 
-	# Track how many directories are deleted
-	local deleted_dirs_count=0
 	while IFS= read -r -d '' empty_dir; do
-		if rm -rf "$empty_dir" 2>/dev/null; then
+		if rmdir "$empty_dir" 2>/dev/null; then
 			((deleted_dirs_count++))
 		fi
-	done < <(find "$BASE_DIR" -mindepth 1 -type d -empty -print0)
+	done < <(find "$BASE_DIR" -depth -mindepth 1 -type d -empty -print0)
 
 	# Clean summary report at the end
 	echo "--------------------------------"
