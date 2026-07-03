@@ -44,11 +44,11 @@ bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
 if [ -f "$HOME/.bash_aliases" ]; then
-	. "$HOME/.bash_aliases"
+	. "$HOME/.bash-aliases"
 fi
 
 if [ -f "$HOME/.bash_functions" ]; then
-	. "$HOME/.bash_functions"
+	. "$HOME/.bash-functions"
 fi
 
 # Retain Fedora's native drop-in directory parsing safely
