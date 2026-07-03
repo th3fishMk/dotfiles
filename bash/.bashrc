@@ -43,11 +43,11 @@ fi
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
-if [ -f "$HOME/.bash_aliases" ]; then
+if [ -f "$HOME/.bash-aliases" ]; then
 	. "$HOME/.bash-aliases"
 fi
 
-if [ -f "$HOME/.bash_functions" ]; then
+if [ -f "$HOME/.bash-functions" ]; then
 	. "$HOME/.bash-functions"
 fi
 
