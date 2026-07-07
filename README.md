@@ -3,7 +3,7 @@
 Just run this command
 
 ```bash
-git clone https://github.com/th3fishMk/dotfiles.git ~/.dotfiles && bash ~/.dotfiles/install.sh
+git clone https://codeberg.org/th3fishMk/dotfiles.git ~/.dotfiles && bash ~/.dotfiles/install.sh
 ```
 
 To make any new scripts executable, run:
