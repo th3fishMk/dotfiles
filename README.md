@@ -10,3 +10,4 @@ To make any new scripts executable, run:
 
 ```bash
 chmod +x <filename>
+```
