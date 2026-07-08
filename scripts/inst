@@ -7,29 +7,29 @@ from pathlib import Path
 help_message = "Run this command with either `dnf` or `flatpak` to indicate a installation \n Example: \ninst dnf blender"
 
 
-def install_dnf(package_name):
-    print(f"Installing the following package: {package_name}")
+def install_dnf(package_names: list[str]):
+    print(f"Installing the following package(s): {package_names}")
+    commands = ["sudo", "dnf", "install", "-y", "-q"] + package_names
     p = subprocess.Popen(
-        ["sudo", "dnf", "install", package_name, "-y", "-q"],
+        commands,
         stdin=None,
         stdout=None,
         stderr=None,
     )
-    # output = p.stdout
-    # print(output)
     p.wait()
 
     if p.returncode == 0:
-        log_install(package_name)
+        log_install(package_names)
 
 
-def log_install(pkg):
+def log_install(pkg: list[str]):
     home = Path.home()
     filename = ".install-log"
     full_path = Path.joinpath(home, filename)
     print(f"Logging to {full_path}")
+    pkg_list = "\n".join(str(x) for x in pkg)
     file = open(full_path, "a+")
-    file.write(f"\n{pkg}")
+    file.write(f"\n{pkg_list}")
 
 
 def install_flatpak(pkg):
@@ -45,9 +45,9 @@ if len(args) <= 2:
     sys.exit()
 match args[1]:
     case "dnf":
-        install_dnf(args[2])
+        install_dnf(args[2:])
     case "flatpak":
-        install_flatpak(args[2])
+        install_flatpak(args[2:])
 
 # TODO: Implement flatpak installation
 # TODO: Implement multiple packages installation
