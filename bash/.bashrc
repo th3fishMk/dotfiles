@@ -1,55 +1,42 @@
-# shellcheck disable=SC2148
-# ====================================================================
-# Global Definitions & System Defaults
-# ====================================================================
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-# ====================================================================
-# User Environment & PATH Adjustments
-# ====================================================================
-# Prevent duplicate prepends if bashrc is sourced multiple times
 if ! [[ "$PATH" =~ $HOME/.local/bin:$HOME/bin: ]]; then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
 export PATH
 
-# Safely source Rust/Cargo environment only if it exists
-if [ -f "$HOME/.cargo/env" ]; then
-    . "$HOME/.cargo/env"
-fi
-
-# ====================================================================
-# Shell History Tuning
-# ====================================================================
+# Shell History
 HISTSIZE=10000
 HISTFILESIZE=20000
-
-# Append history instead of overwriting, ignore duplicates and common typos
 shopt -s histappend
 export HISTCONTROL=ignoreboth:erasedups
-
-# Sync history across multiple active terminal windows instantaneously
-# Guarded against loops by strictly managing existing PROMPT_COMMAND states
 if [[ ! "$PROMPT_COMMAND" =~ "history -a; history -c; history -r" ]]; then
     PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 fi
 
-# ====================================================================
-# Terminal Interface & Keybindings
-# ====================================================================
-# Enable incremental history search with up/down arrows
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
+# Aliases
 if [ -f "$HOME/.bash-aliases" ]; then
     . "$HOME/.bash-aliases"
 fi
-
+# Functions
 if [ -f "$HOME/.bash-functions" ]; then
     . "$HOME/.bash-functions"
 fi
+# Add bin dir to path
+if [ -d "$HOME/.dotfiles/bin" ]; then
+    PATH="$HOME/.dotfiles/bin:$PATH"
+fi
+export PATH
+# Add script dir to path
+if [ -d "$HOME/.dotfiles/scripts" ]; then
+    PATH="$HOME/.dotfiles/scripts:$PATH"
+fi
+export PATH
 
 # Retain Fedora's native drop-in directory parsing safely
 if [ -d ~/.bashrc.d ]; then
@@ -61,6 +48,7 @@ if [ -d ~/.bashrc.d ]; then
 fi
 unset rc
 
+# making terminal pretty
 parse_git_branch() {
     # Fail fast if outside a git repository
     git rev-parse --is-inside-work-tree &>/dev/null || return
@@ -93,18 +81,6 @@ parse_git_branch() {
     echo "$branch|$localpath|$state|$symbol"
 }
 
-# Add custom dotfiles bin directory to the system PATH
-if [ -d "$HOME/.dotfiles/bin" ]; then
-    PATH="$HOME/.dotfiles/bin:$PATH"
-fi
-export PATH
-# Export scripts
-if [ -d "$HOME/.dotfiles/scripts" ]; then
-    PATH="$HOME/.dotfiles/scripts:$PATH"
-fi
-export PATH
-
-# Render prompt strings safely with optimized terminal coloring sequences
 build_prompt() {
     # local exit_status=$?
     local info color branch prefix state symbol
@@ -130,24 +106,26 @@ build_prompt() {
 
 PROMPT_COMMAND="build_prompt; $PROMPT_COMMAND"
 
-# ====================================================================
-# System Diagnostics Visualizer
-# ====================================================================
+# Rust stuff
+if [ -f "$HOME/.cargo/env" ]; then
+    . "$HOME/.cargo/env"
+fi
+
+# Nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="/home/$USER/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end
+
+# More pretty stuff in the terminal
 if command -v fastfetch &>/dev/null; then
     fastfetch
 fi
 
-# pnpm
-export PNPM_HOME="/home/th3fishmk/.local/share/pnpm"
-case ":$PATH:" in
-*":$PNPM_HOME/bin:"*) ;;
-*) export PATH="$PNPM_HOME/bin:$PATH" ;;
-esac
-# pnpm end
-
-# fnm
-FNM_PATH="/home/th3fishmk/.local/share/fnm"
-if [ -d "$FNM_PATH" ]; then
-    export PATH="$FNM_PATH:$PATH"
-    eval "$(fnm env --shell bash)"
-fi

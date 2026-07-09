@@ -47,4 +47,12 @@ metadata_expire=1h
 EOF
 sudo dnf install codium
 
-echo -e "\n========================================================="
+# Download and install nvm:
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.5/install.sh | bash
+# Prevent resourcing
+\. "$HOME/.nvm/nvm.sh"
+nvm install 24
+
+# Installing global stuff
+npm install -g pnpm@latest-11
+npm install -g typescript
