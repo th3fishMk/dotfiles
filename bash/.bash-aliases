@@ -7,7 +7,7 @@ alias g="git"
 alias biomize="pnpm add -D -E @biomejs/biome && pnpx @biomejs/biome init"
 
 alias dotfiles-update="cd \$HOME/.dotfiles && git pull && cd - && reSource"
-alias dotfiles-update-force="cd \$HOME/.dotfiles && git fetch --all && git reset --hard origin/trunk && cd -"
+alias dotfiles-update-force="cd \$HOME/.dotfiles && git fetch --all && git reset --hard origin/trunk && cd - && reSource"
 alias dotfiles-cd="cd \$HOME/.dotfiles"
 
 alias special-filename-validator="special_filename_clean && special_remove_subfolder && special_rename"

@@ -32,9 +32,9 @@ def log_install(pkg: list[str]):
     file.write(f"\n{pkg_list}")
 
 
-def install_flatpak(pkg):
+def install_flatpak(pkg: list[str]):
     print(
-        "This functionality is not implemented yet, please dont have an emergency at this location."
+        f"This functionality is not implemented yet, please dont have an emergency at this location. {pkg} was/were not installed"
     )
     sys.exit()
 
@@ -48,6 +48,8 @@ match args[1]:
         install_dnf(args[2:])
     case "flatpak":
         install_flatpak(args[2:])
+    case _:
+        print(help_message)
 
 # TODO: Implement flatpak installation
 # TODO: Implement multiple packages installation

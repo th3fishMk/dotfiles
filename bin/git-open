@@ -2,16 +2,16 @@
 
 # Ensure we are inside a git repository
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-	echo "Error: This directory is not a Git repository." >&2
-	exit 1
+    echo "Error: This directory is not a Git repository." >&2
+    exit 1
 fi
 
 # Get the remote URL for 'origin'
 REMOTE_URL=$(git config --get remote.origin.url 2>/dev/null)
 
 if [ -z "$REMOTE_URL" ]; then
-	echo "Error: No remote named 'origin' found for this repository." >&2
-	exit 1
+    echo "Error: No remote named 'origin' found for this repository." >&2
+    exit 1
 fi
 
 # Clean up the URL to make it a web-browsable link
@@ -19,14 +19,14 @@ WEB_URL="$REMOTE_URL"
 
 # Case 1: If it's an SSH URL (git@github.com:user/repo.git or ssh://git@...)
 if [[ "$WEB_URL" =~ ^git@ ]] || [[ "$WEB_URL" =~ ^ssh:// ]]; then
-	# Remove ssh:// prefix if present
-	WEB_URL="${WEB_URL#ssh://}"
-	# Replace the 'git@' prefix with 'https://'
-	WEB_URL="${WEB_URL#git@}"
-	# Replace the first ':' after the domain with '/' (e.g., github.com:user -> github.com/user)
-	WEB_URL="${WEB_URL/:/\/}"
-	# Prepend https://
-	WEB_URL="https://$WEB_URL"
+    # Remove ssh:// prefix if present
+    WEB_URL="${WEB_URL#ssh://}"
+    # Replace the 'git@' prefix with 'https://'
+    WEB_URL="${WEB_URL#git@}"
+    # Replace the first ':' after the domain with '/' (e.g., github.com:user -> github.com/user)
+    WEB_URL="${WEB_URL/:/\/}"
+    # Prepend https://
+    WEB_URL="https://$WEB_URL"
 fi
 
 # Case 2: Ensure any trailing '.git' is removed for a cleaner browser experience
@@ -37,25 +37,25 @@ echo "Opening: $WEB_URL"
 # Detect OS and open the default browser
 case "$OSTYPE" in
 linux*)
-	# Linux (checks for xdg-open, then sensible-browser)
-	if command -v xdg-open >/dev/null; then
-		xdg-open "$WEB_URL"
-	elif command -v sensible-browser >/dev/null; then
-		sensible-browser "$WEB_URL"
-	else
-		echo "Error: Could not find a browser launcher (xdg-open/sensible-browser)." >&2
-		exit 1
-	fi
-	;;
+    # Linux (checks for xdg-open, then sensible-browser)
+    if command -v xdg-open >/dev/null; then
+        xdg-open "$WEB_URL"
+    elif command -v sensible-browser >/dev/null; then
+        sensible-browser "$WEB_URL"
+    else
+        echo "Error: Could not find a browser launcher (xdg-open/sensible-browser)." >&2
+        exit 1
+    fi
+    ;;
 darwin*)
-	# macOS
-	open "$WEB_URL"
-	;;
+    # macOS
+    open "$WEB_URL"
+    ;;
 msys* | cygwin* | mingw*)
-	# Windows (Git Bash / WSL / Cygwin)
-	start "$WEB_URL"
-	;;
+    # Windows (Git Bash / WSL / Cygwin)
+    start "$WEB_URL"
+    ;;
 *)
-	echo "Unsupported OS. Please open this link manually: $WEB_URL"
-	;;
+    echo "Unsupported OS. Please open this link manually: $WEB_URL"
+    ;;
 esac

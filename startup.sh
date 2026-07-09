@@ -35,7 +35,7 @@ link_config "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
 link_config "$DOTFILES_DIR/bash/.bash-aliases" "$HOME/.bash-aliases"
 link_config "$DOTFILES_DIR/bash/.bash-functions" "$HOME/.bash-functions"
 
-# 5. Rename the Hostname
+# Rename the Hostname
 echo "Configuring system name..."
 RENAME_CHOICE=""
 read -rp "Do you want to rename this computer? (y/N): " RENAME_CHOICE
