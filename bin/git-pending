@@ -8,12 +8,10 @@ echo "Scanning subdirectories in: $DIR"
 for repo in "$DIR"/*/; do
     if [ ! -d "$repo/.git" ]; then
         printf "\033[0;33mDirectory %s is not a Git repository\033[0m\n" "$repo"
-
         continue
     fi
 
     printf "Current repo: %s" "$repo"
-
     (
         cd "$repo" || exit
         status_printed=0

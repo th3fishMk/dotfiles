@@ -1,18 +1,15 @@
 #!/bin/bash
 
-echo "Today is $(date)"
-echo "Configuring your personal desktop applications..."
-
-echo -e "\n--> Verifying Flatpak and adding Flathub repository..."
 sudo dnf install -y flatpak
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-echo -e "\n--> Installing native multimedia codecs and host system apps..."
 
 # Enable RPM Fusion if not already done (required for clean, hardware-accelerated media)
 sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
-sudo dnf install -y steam meld obs-studio obs-studio-plugin-x264 obs-studio-plugin-distroav
+sudo dnf install -y steam meld obs-studio obs-studio-plugin-x264 obs-studio-plugin-distroav syncthing
+
+# syncthing service
+sudo systemctl enable --now syncthing@USER.service
 
 # Brave Browser
 curl -fsS https://dl.brave.com/install.sh | sh
@@ -36,7 +33,4 @@ for APP in "${APPS[@]}"; do
     flatpak install -y flathub "$APP"
 done
 
-echo -e "\n--> Cleaning package footprints and verifying structural integrity..."
-sudo dnf clean all
 flatpak uninstall --unused -y
-echo -e "\n========================================================="
