@@ -7,7 +7,7 @@ Long life to fedora.
 Just run this command
 
 ```bash
-git clone https://github.com/th3fishMk/dotfiles.git ~/.dotfiles && bash ~/.dotfiles/startup.sh
+git clone https://codeberg.org/th3fishMk/dotfiles.git ~/.dotfiles && bash ~/.dotfiles/startup.sh
 ```
 
 To make any new scripts executable, run:
