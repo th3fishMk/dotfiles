@@ -28,364 +28,364 @@ sysUp() {
     echo "=== All updates finished successfully ==="
 }
 
-# removes all subdir in a file, moves the file and delete empty folders
-special_remove_subfolder() {
-    # Default to the current directory if no argument is provided
-    local TARGET_DIR="${1:-.}"
+# # removes all subdir in a file, moves the file and delete empty folders
+# special_remove_subfolder() {
+#     # Default to the current directory if no argument is provided
+#     local TARGET_DIR="${1:-.}"
 
-    # Ensure the provided path is a valid directory
-    if [ ! -d "$TARGET_DIR" ]; then
-        echo "Error: '$TARGET_DIR' is not a valid directory." >&2
-        return 1
-    fi
+#     # Ensure the provided path is a valid directory
+#     if [ ! -d "$TARGET_DIR" ]; then
+#         echo "Error: '$TARGET_DIR' is not a valid directory." >&2
+#         return 1
+#     fi
 
-    # Convert TARGET_DIR to an absolute or clean path to prevent path resolution bugs
-    local BASE_DIR
-    BASE_DIR=$(cd "$TARGET_DIR" && pwd)
+#     # Convert TARGET_DIR to an absolute or clean path to prevent path resolution bugs
+#     local BASE_DIR
+#     BASE_DIR=$(cd "$TARGET_DIR" && pwd)
 
-    echo "Flattening directory: $BASE_DIR"
-    echo "--------------------------------"
+#     echo "Flattening directory: $BASE_DIR"
+#     echo "--------------------------------"
 
-    # Counters and loop variables declared locally
-    local renamed_count=0
-    local skipped_count=0
-    local deleted_dirs_count=0
-    local file
-    local empty_dir
+#     # Counters and loop variables declared locally
+#     local renamed_count=0
+#     local skipped_count=0
+#     local deleted_dirs_count=0
+#     local file
+#     local empty_dir
 
-    # 1. Move and rename files from subdirectories
-    while IFS= read -r -d '' file; do
-        local file_dir
-        file_dir=$(dirname "$file")
-        local base_name
-        base_name=$(basename "$file")
+#     # 1. Move and rename files from subdirectories
+#     while IFS= read -r -d '' file; do
+#         local file_dir
+#         file_dir=$(dirname "$file")
+#         local base_name
+#         base_name=$(basename "$file")
 
-        # Extract the relative path from the BASE_DIR to the file's directory
-        local rel_path="${file_dir#"$BASE_DIR"/}"
+#         # Extract the relative path from the BASE_DIR to the file's directory
+#         local rel_path="${file_dir#"$BASE_DIR"/}"
 
-        # Replace all slashes '/' in the relative path with '='
-        local prefix="${rel_path//\//=}"
+#         # Replace all slashes '/' in the relative path with '='
+#         local prefix="${rel_path//\//=}"
 
-        # Construct the final new filename and destination path
-        local new_name="${prefix}=${base_name}"
-        local dest_file="$BASE_DIR/$new_name"
+#         # Construct the final new filename and destination path
+#         local new_name="${prefix}=${base_name}"
+#         local dest_file="$BASE_DIR/$new_name"
 
-        # Safe move: Check if the target file already exists
-        if [ -e "$dest_file" ]; then
-            echo "[SKIPPED]  '$base_name' (Target '$new_name' already exists)"
-            ((skipped_count++))
-        else
-            mv "$file" "$dest_file"
-            echo "[RENAMED]  $rel_path/$base_name -> $new_name"
-            ((renamed_count++))
-        fi
-    done < <(find "$BASE_DIR" -mindepth 2 -type f -print0)
+#         # Safe move: Check if the target file already exists
+#         if [ -e "$dest_file" ]; then
+#             echo "[SKIPPED]  '$base_name' (Target '$new_name' already exists)"
+#             ((skipped_count++))
+#         else
+#             mv "$file" "$dest_file"
+#             echo "[RENAMED]  $rel_path/$base_name -> $new_name"
+#             ((renamed_count++))
+#         fi
+#     done < <(find "$BASE_DIR" -mindepth 2 -type f -print0)
 
-    # 2. Clean up empty subdirectories
-    echo "--------------------------------"
-    echo "Cleaning up empty subdirectories..."
+#     # 2. Clean up empty subdirectories
+#     echo "--------------------------------"
+#     echo "Cleaning up empty subdirectories..."
 
-    while IFS= read -r -d '' empty_dir; do
-        if rmdir "$empty_dir" 2>/dev/null; then
-            ((deleted_dirs_count++))
-        fi
-    done < <(find "$BASE_DIR" -depth -mindepth 1 -type d -empty -print0)
+#     while IFS= read -r -d '' empty_dir; do
+#         if rmdir "$empty_dir" 2>/dev/null; then
+#             ((deleted_dirs_count++))
+#         fi
+#     done < <(find "$BASE_DIR" -depth -mindepth 1 -type d -empty -print0)
 
-    # Clean summary report at the end
-    echo "--------------------------------"
-    echo "Done! Summary: Flattened $renamed_count files, skipped $skipped_count files, and deleted $deleted_dirs_count empty directories."
-}
+#     # Clean summary report at the end
+#     echo "--------------------------------"
+#     echo "Done! Summary: Flattened $renamed_count files, skipped $skipped_count files, and deleted $deleted_dirs_count empty directories."
+# }
 
-# Remove invalid characters in files (except for =)
-special_filename_clean() {
-    # Default to the current directory if no argument is provided
-    local TARGET_DIR="${1:-.}"
+# # Remove invalid characters in files (except for =)
+# special_filename_clean() {
+#     # Default to the current directory if no argument is provided
+#     local TARGET_DIR="${1:-.}"
 
-    # Ensure the provided path is a valid directory
-    if [ ! -d "$TARGET_DIR" ]; then
-        echo "Error: '$TARGET_DIR' is not a valid directory." >&2
-        return 1
-    fi
+#     # Ensure the provided path is a valid directory
+#     if [ ! -d "$TARGET_DIR" ]; then
+#         echo "Error: '$TARGET_DIR' is not a valid directory." >&2
+#         return 1
+#     fi
 
-    echo "Cleaning filename characters recursively in: $TARGET_DIR"
-    echo "------------------------------------------------"
+#     echo "Cleaning filename characters recursively in: $TARGET_DIR"
+#     echo "------------------------------------------------"
 
-    # Counters for the final round-up report
-    local renamed_count=0
-    local skipped_count=0
-    local no_change_count=0
+#     # Counters for the final round-up report
+#     local renamed_count=0
+#     local skipped_count=0
+#     local no_change_count=0
 
-    # -depth ensures we rename files/folders from the inside out
-    # -type f ensures we only rename files
-    while IFS= read -r -d '' item; do
-        # Skip the root target directory itself
-        if [ "$item" = "$TARGET_DIR" ]; then
-            continue
-        fi
+#     # -depth ensures we rename files/folders from the inside out
+#     # -type f ensures we only rename files
+#     while IFS= read -r -d '' item; do
+#         # Skip the root target directory itself
+#         if [ "$item" = "$TARGET_DIR" ]; then
+#             continue
+#         fi
 
-        local dir
-        dir=$(dirname "$item")
-        local base
-        base=$(basename "$item")
+#         local dir
+#         dir=$(dirname "$item")
+#         local base
+#         base=$(basename "$item")
 
-        # Strip any character that is NOT: a-z, A-Z, 0-9, _, =, ., or -
-        # Spaces are stripped now too!
-        local clean_base
-        clean_base=$(echo -n "$base" | sed 's/[^a-zA-Z0-9_=.-]//g')
+#         # Strip any character that is NOT: a-z, A-Z, 0-9, _, =, ., or -
+#         # Spaces are stripped now too!
+#         local clean_base
+#         clean_base=$(echo -n "$base" | sed 's/[^a-zA-Z0-9_=.-]//g')
 
-        # Check if changes are needed
-        if [ "$base" != "$clean_base" ]; then
-            local new_item="$dir/$clean_base"
+#         # Check if changes are needed
+#         if [ "$base" != "$clean_base" ]; then
+#             local new_item="$dir/$clean_base"
 
-            if [ -e "$new_item" ]; then
-                echo "[SKIPPED]   '$base' -> '$clean_base' (Target already exists)"
-                ((skipped_count++))
-            else
-                mv "$item" "$new_item"
-                echo "[RENAMED]   '$base' -> '$clean_base'"
-                ((renamed_count++))
-            fi
-        else
-            echo "[NO CHANGE] '$base'"
-            ((no_change_count++))
-        fi
-    done < <(find "$TARGET_DIR" -depth -type f -print0)
+#             if [ -e "$new_item" ]; then
+#                 echo "[SKIPPED]   '$base' -> '$clean_base' (Target already exists)"
+#                 ((skipped_count++))
+#             else
+#                 mv "$item" "$new_item"
+#                 echo "[RENAMED]   '$base' -> '$clean_base'"
+#                 ((renamed_count++))
+#             fi
+#         else
+#             echo "[NO CHANGE] '$base'"
+#             ((no_change_count++))
+#         fi
+#     done < <(find "$TARGET_DIR" -depth -type f -print0)
 
-    # Clean summary report at the end
-    echo "------------------------------------------------"
-    echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
-}
+#     # Clean summary report at the end
+#     echo "------------------------------------------------"
+#     echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
+# }
 
-# Rename files in a very specific way
-special_rename() {
-    # Default to the current directory if no argument is provided
-    local TARGET_DIR="${1:-.}"
+# # Rename files in a very specific way
+# special_rename() {
+#     # Default to the current directory if no argument is provided
+#     local TARGET_DIR="${1:-.}"
 
-    # Ensure the provided path is a valid directory
-    if [ ! -d "$TARGET_DIR" ]; then
-        echo "Error: '$TARGET_DIR' is not a valid directory." >&2
-        return 1
-    fi
+#     # Ensure the provided path is a valid directory
+#     if [ ! -d "$TARGET_DIR" ]; then
+#         echo "Error: '$TARGET_DIR' is not a valid directory." >&2
+#         return 1
+#     fi
 
-    echo "Sequencing files in: $TARGET_DIR"
-    echo "--------------------------------"
+#     echo "Sequencing files in: $TARGET_DIR"
+#     echo "--------------------------------"
 
-    # Declare an associative array to track independent counters for each prefix group
-    declare -A counters
+#     # Declare an associative array to track independent counters for each prefix group
+#     declare -A counters
 
-    local renamed_count=0
-    local skipped_count=0
-    local no_change_count=0
+#     local renamed_count=0
+#     local skipped_count=0
+#     local no_change_count=0
 
-    while IFS= read -r -d '' file; do
-        local dir
-        dir=$(dirname "$file")
-        local base
-        base=$(basename "$file")
+#     while IFS= read -r -d '' file; do
+#         local dir
+#         dir=$(dirname "$file")
+#         local base
+#         base=$(basename "$file")
 
-        # Extract the extension and convert to lowercase for matching
-        local extension="${base##*.}"
-        local ext_lower
-        ext_lower=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
+#         # Extract the extension and convert to lowercase for matching
+#         local extension="${base##*.}"
+#         local ext_lower
+#         ext_lower=$(echo "$extension" | tr '[:upper:]' '[:lower:]')
 
-        # Get everything to the left of the LAST '=', including the '='
-        local prefix="${base%=[^=]*}="
+#         # Get everything to the left of the LAST '=', including the '='
+#         local prefix="${base%=[^=]*}="
 
-        # Determine the target category string based on the extension
-        local category="file"
-        case "$ext_lower" in
-        pdf | doc | docx | odt | rtf | txt | tex | epub)
-            category="document"
-            ;;
-        png | jpg | jpeg | gif | bmp | svg | webp | tiff)
-            category="image"
-            ;;
-        mp4 | mkv | avi | mov | wmv | flv | webm)
-            category="video"
-            ;;
-        mp3 | wav | flac | m4a | ogg | wma)
-            category="audio"
-            ;;
-        *)
-            category="file"
-            ;;
-        esac
+#         # Determine the target category string based on the extension
+#         local category="file"
+#         case "$ext_lower" in
+#         pdf | doc | docx | odt | rtf | txt | tex | epub)
+#             category="document"
+#             ;;
+#         png | jpg | jpeg | gif | bmp | svg | webp | tiff)
+#             category="image"
+#             ;;
+#         mp4 | mkv | avi | mov | wmv | flv | webm)
+#             category="video"
+#             ;;
+#         mp3 | wav | flac | m4a | ogg | wma)
+#             category="audio"
+#             ;;
+#         *)
+#             category="file"
+#             ;;
+#         esac
 
-        # Initialize the counter for this unique prefix group if it doesn't exist
-        if [ -z "${counters[$prefix]}" ]; then
-            counters[$prefix]=0
-        fi
+#         # Initialize the counter for this unique prefix group if it doesn't exist
+#         if [ -z "${counters[$prefix]}" ]; then
+#             counters[$prefix]=0
+#         fi
 
-        # Format the counter to 4 digits (e.g., 0000, 0001)
-        local current_count
-        current_count=$(printf "%04d" "${counters[$prefix]}")
+#         # Format the counter to 4 digits (e.g., 0000, 0001)
+#         local current_count
+#         current_count=$(printf "%04d" "${counters[$prefix]}")
 
-        # Construct the final name: everything up to the last '=' + category + counter + extension
-        local new_base="${prefix}${category}${current_count}.${extension}"
-        local new_file="$dir/$new_base"
+#         # Construct the final name: everything up to the last '=' + category + counter + extension
+#         local new_base="${prefix}${category}${current_count}.${extension}"
+#         local new_file="$dir/$new_base"
 
-        # Execute rename and log metrics
-        if [ "$base" != "$new_base" ]; then
-            if [ -e "$new_file" ]; then
-                echo "[SKIPPED]  '$base' -> '$new_base' (Target already exists)"
-                ((skipped_count++))
-            else
-                mv "$file" "$new_file"
-                echo "[RENAMED]  '$base' -> '$new_base'"
-                ((renamed_count++))
-            fi
-        else
-            echo "[NO CHANGE] '$base'"
-            ((no_change_count++))
-        fi
+#         # Execute rename and log metrics
+#         if [ "$base" != "$new_base" ]; then
+#             if [ -e "$new_file" ]; then
+#                 echo "[SKIPPED]  '$base' -> '$new_base' (Target already exists)"
+#                 ((skipped_count++))
+#             else
+#                 mv "$file" "$new_file"
+#                 echo "[RENAMED]  '$base' -> '$new_base'"
+#                 ((renamed_count++))
+#             fi
+#         else
+#             echo "[NO CHANGE] '$base'"
+#             ((no_change_count++))
+#         fi
 
-        # Increment counter for this specific prefix group
-        ((counters[$prefix]++))
-    done < <(find "$TARGET_DIR" -maxdepth 1 -type f -name "*=*" -print0)
+#         # Increment counter for this specific prefix group
+#         ((counters[$prefix]++))
+#     done < <(find "$TARGET_DIR" -maxdepth 1 -type f -name "*=*" -print0)
 
-    # Clean summary report
-    echo "--------------------------------"
-    echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
-}
+#     # Clean summary report
+#     echo "--------------------------------"
+#     echo "Done! Summary: Renamed $renamed_count files, skipped $skipped_count files, and left $no_change_count files unchanged."
+# }
 
-# Collects all the files with a specific extension, from a given dir, into another dir
-gather_files_by_ext() {
-    # 1. Validate that all 3 parameters are passed
-    if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
-        echo "Error: Missing arguments." >&2
-        echo "Usage: gather_files_by_ext <source_dir> <extension> <dest_dir>" >&2
-        return 1
-    fi
+# # Collects all the files with a specific extension, from a given dir, into another dir
+# gather_files_by_ext() {
+#     # 1. Validate that all 3 parameters are passed
+#     if [ -z "$1" ] || [ -z "$2" ] || [ -z "$3" ]; then
+#         echo "Error: Missing arguments." >&2
+#         echo "Usage: gather_files_by_ext <source_dir> <extension> <dest_dir>" >&2
+#         return 1
+#     fi
 
-    local SRC_DIR="$1"
-    local EXT="$2"
-    local DEST_DIR="$3"
+#     local SRC_DIR="$1"
+#     local EXT="$2"
+#     local DEST_DIR="$3"
 
-    # 2. Validate source directory existence
-    if [ ! -d "$SRC_DIR" ]; then
-        echo "Error: Source path '$SRC_DIR' is not a valid directory." >&2
-        return 1
-    fi
+#     # 2. Validate source directory existence
+#     if [ ! -d "$SRC_DIR" ]; then
+#         echo "Error: Source path '$SRC_DIR' is not a valid directory." >&2
+#         return 1
+#     fi
 
-    # Strip a leading dot from the extension if the user typed ".jpg" instead of "jpg"
-    EXT="${EXT#.}"
+#     # Strip a leading dot from the extension if the user typed ".jpg" instead of "jpg"
+#     EXT="${EXT#.}"
 
-    echo "Gathering all '*.$EXT' files from '$SRC_DIR' into '$DEST_DIR'..."
-    echo "------------------------------------------------"
+#     echo "Gathering all '*.$EXT' files from '$SRC_DIR' into '$DEST_DIR'..."
+#     echo "------------------------------------------------"
 
-    # Initialize metric counters
-    local scanned_dirs=0
-    local scanned_subdirs=0
-    local moved_files=0
-    local skipped_files=0
+#     # Initialize metric counters
+#     local scanned_dirs=0
+#     local scanned_subdirs=0
+#     local moved_files=0
+#     local skipped_files=0
 
-    # 3. Handle destination directory creation/validation safely inside the loop logic
-    # We do a lazy creation right before moving the first file, or explicitly here:
-    if [ ! -d "$DEST_DIR" ]; then
-        if mkdir -p "$DEST_DIR" 2>/dev/null; then
-            echo "[INFO] Created destination directory: '$DEST_DIR'"
-        else
-            echo "Error: Failed to create destination directory '$DEST_DIR'." >&2
-            return 1
-        fi
-    fi
+#     # 3. Handle destination directory creation/validation safely inside the loop logic
+#     # We do a lazy creation right before moving the first file, or explicitly here:
+#     if [ ! -d "$DEST_DIR" ]; then
+#         if mkdir -p "$DEST_DIR" 2>/dev/null; then
+#             echo "[INFO] Created destination directory: '$DEST_DIR'"
+#         else
+#             echo "Error: Failed to create destination directory '$DEST_DIR'." >&2
+#             return 1
+#         fi
+#     fi
 
-    # Convert paths to absolute to prevent path-matching confusion during recursion
-    local ABS_SRC
-    ABS_SRC=$(cd "$SRC_DIR" && pwd)
-    local ABS_DEST
-    ABS_DEST=$(cd "$DEST_DIR" && pwd)
+#     # Convert paths to absolute to prevent path-matching confusion during recursion
+#     local ABS_SRC
+#     ABS_SRC=$(cd "$SRC_DIR" && pwd)
+#     local ABS_DEST
+#     ABS_DEST=$(cd "$DEST_DIR" && pwd)
 
-    # Count source directories first
-    # Total directories minus 1 (the root itself) gives us the subdirectories count
-    local total_dirs
-    total_dirs=$(find "$ABS_SRC" -type d | wc -l)
-    if [ "$total_dirs" -gt 0 ]; then
-        scanned_dirs=1
-        scanned_subdirs=$((total_dirs - 1))
-    fi
+#     # Count source directories first
+#     # Total directories minus 1 (the root itself) gives us the subdirectories count
+#     local total_dirs
+#     total_dirs=$(find "$ABS_SRC" -type d | wc -l)
+#     if [ "$total_dirs" -gt 0 ]; then
+#         scanned_dirs=1
+#         scanned_subdirs=$((total_dirs - 1))
+#     fi
 
-    # Loop through all files matching the target extension recursively
-    while IFS= read -r -d '' file; do
-        local base_name
-        base_name=$(basename "$file")
-        local target_dest="$ABS_DEST/$base_name"
+#     # Loop through all files matching the target extension recursively
+#     while IFS= read -r -d '' file; do
+#         local base_name
+#         base_name=$(basename "$file")
+#         local target_dest="$ABS_DEST/$base_name"
 
-        # Prevent a file from moving into itself if destination is inside source
-        if [ "$file" = "$target_dest" ]; then
-            echo "[SKIPPED]  '$base_name' (File is already at the destination)"
-            ((skipped_files++))
-            continue
-        fi
+#         # Prevent a file from moving into itself if destination is inside source
+#         if [ "$file" = "$target_dest" ]; then
+#             echo "[SKIPPED]  '$base_name' (File is already at the destination)"
+#             ((skipped_files++))
+#             continue
+#         fi
 
-        # Execute safe move
-        if [ -e "$target_dest" ]; then
-            echo "[SKIPPED]  '$base_name' (Target already exists in destination folder)"
-            ((skipped_files++))
-        else
-            mv "$file" "$target_dest"
-            echo "[MOVED]    '$file' -> '$target_dest'"
-            ((moved_files++))
-        fi
+#         # Execute safe move
+#         if [ -e "$target_dest" ]; then
+#             echo "[SKIPPED]  '$base_name' (Target already exists in destination folder)"
+#             ((skipped_files++))
+#         else
+#             mv "$file" "$target_dest"
+#             echo "[MOVED]    '$file' -> '$target_dest'"
+#             ((moved_files++))
+#         fi
 
-    done < <(find "$ABS_SRC" -type f -name "*.$EXT" -print0)
+#     done < <(find "$ABS_SRC" -type f -name "*.$EXT" -print0)
 
-    # Clean summary report
-    echo "------------------------------------------------"
-    echo "Done! Summary:"
-    echo "  - Scanned Root Dir: $scanned_dirs"
-    echo "  - Scanned Sub-Dirs: $scanned_subdirs"
-    echo "  - Moved Files:      $moved_files"
-    if [ "$skipped_files" -gt 0 ]; then
-        echo "  - Skipped Files:    $skipped_files"
-    fi
-}
+#     # Clean summary report
+#     echo "------------------------------------------------"
+#     echo "Done! Summary:"
+#     echo "  - Scanned Root Dir: $scanned_dirs"
+#     echo "  - Scanned Sub-Dirs: $scanned_subdirs"
+#     echo "  - Moved Files:      $moved_files"
+#     if [ "$skipped_files" -gt 0 ]; then
+#         echo "  - Skipped Files:    $skipped_files"
+#     fi
+# }
 
-validate_naming() {
-    local target_dir="${1:-.}"
-    local good_items=()
-    local bad_items=()
+# validate_naming() {
+#     local target_dir="${1:-.}"
+#     local good_items=()
+#     local bad_items=()
 
-    # Ensure the target directory exists
-    if [[ ! -d "$target_dir" ]]; then
-        echo "Error: Directory '$target_dir' does not exist."
-        return 1
-    fi
+#     # Ensure the target directory exists
+#     if [[ ! -d "$target_dir" ]]; then
+#         echo "Error: Directory '$target_dir' does not exist."
+#         return 1
+#     fi
 
-    # Read all files and directories recursively
-    while IFS= read -r -d '' item; do
-        local name
-        name=$(basename "$item")
+#     # Read all files and directories recursively
+#     while IFS= read -r -d '' item; do
+#         local name
+#         name=$(basename "$item")
 
-        if [[ -d "$item" ]]; then
-            # Folders: strictly letters, numbers, and underscores (no periods)
-            if [[ "$name" =~ ^[a-zA-Z0-9_]+$ ]]; then
-                good_items+=("$item (dir)")
-            else
-                bad_items+=("$item (dir)")
-            fi
-        else
-            # Files: letters, numbers, underscores, and periods allowed
-            if [[ "$name" =~ ^[a-zA-Z0-9_.]+$ ]]; then
-                good_items+=("$item (file)")
-            else
-                bad_items+=("$item (file)")
-            fi
-        fi
-    done < <(find "$target_dir" -mindepth 1 -print0 2>/dev/null)
+#         if [[ -d "$item" ]]; then
+#             # Folders: strictly letters, numbers, and underscores (no periods)
+#             if [[ "$name" =~ ^[a-zA-Z0-9_]+$ ]]; then
+#                 good_items+=("$item (dir)")
+#             else
+#                 bad_items+=("$item (dir)")
+#             fi
+#         else
+#             # Files: letters, numbers, underscores, and periods allowed
+#             if [[ "$name" =~ ^[a-zA-Z0-9_.]+$ ]]; then
+#                 good_items+=("$item (file)")
+#             else
+#                 bad_items+=("$item (file)")
+#             fi
+#         fi
+#     done < <(find "$target_dir" -mindepth 1 -print0 2>/dev/null)
 
-    # ANSI Color Codes
-    local GREEN='\033[0;32m'
-    local RED='\033[0;31m'
-    local NC='\033[0m' # No Color
+#     # ANSI Color Codes
+#     local GREEN='\033[0;32m'
+#     local RED='\033[0;31m'
+#     local NC='\033[0m' # No Color
 
-    # Print valid items first
-    for item in "${good_items[@]}"; do
-        echo -e "${GREEN}[VALID]   ${item}${NC}"
-    done
+#     # Print valid items first
+#     for item in "${good_items[@]}"; do
+#         echo -e "${GREEN}[VALID]   ${item}${NC}"
+#     done
 
-    # Print invalid items last
-    for item in "${bad_items[@]}"; do
-        echo -e "${RED}[INVALID] ${item}${NC}"
-    done
-}
+#     # Print invalid items last
+#     for item in "${bad_items[@]}"; do
+#         echo -e "${RED}[INVALID] ${item}${NC}"
+#     done
+# }
