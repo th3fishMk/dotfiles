@@ -1,10 +1,16 @@
 #!/usr/bin/env python
 
+from enum import Enum
 import subprocess
 import sys
 from pathlib import Path
 
 help_message = "Run this command with either `dnf` or `flatpak` to indicate a installation \n Example: \ninst dnf blender"
+
+
+class PkgMng(Enum):
+    dnf = "dnf"
+    flatpak = "flatpak"
 
 
 def install_dnf(package_names: list[str]):
@@ -19,12 +25,12 @@ def install_dnf(package_names: list[str]):
     p.wait()
 
     if p.returncode == 0:
-        log_install(package_names)
+        log_install(PkgMng.dnf, package_names)
 
 
-def log_install(pkg: list[str]):
+def log_install(manager: PkgMng, pkg: list[str]):
     home = Path.home()
-    filename = ".install-log"
+    filename = ".installs-dnf" if manager == PkgMng.dnf else ".installs-flatpak"
     full_path = Path.joinpath(home, filename)
     print(f"Logging to {full_path}")
     pkg_list = "\n".join(str(x) for x in pkg)
@@ -32,11 +38,19 @@ def log_install(pkg: list[str]):
     file.write(f"\n{pkg_list}")
 
 
-def install_flatpak(pkg: list[str]):
-    print(
-        f"This functionality is not implemented yet, please dont have an emergency at this location. {pkg} was/were not installed"
+def install_flatpak(package_names: list[str]):
+    print(f"Installing the following package(s): {package_names}")
+    commands = ["flatpak", "install", "flathub", "-y"] + package_names
+    p = subprocess.Popen(
+        commands,
+        stdin=None,
+        stdout=None,
+        stderr=None,
     )
-    sys.exit()
+    p.wait()
+
+    if p.returncode == 0:
+        log_install(PkgMng.flatpak, package_names)
 
 
 args = sys.argv
@@ -50,6 +64,3 @@ match args[1]:
         install_flatpak(args[2:])
     case _:
         print(help_message)
-
-# TODO: Implement flatpak installation
-# TODO: Implement multiple packages installation
