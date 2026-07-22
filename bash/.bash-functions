@@ -1,3 +1,4 @@
+#!/bin/bash
 # shellcheck disable=SC2148
 quick-commit() {
     local message="${1:-Auto-commit update}"

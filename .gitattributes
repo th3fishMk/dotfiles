@@ -1,1 +1,4 @@
 *.wlt linguist-vendored
+bin/* linguist-language=Shell
+scripts/* linguist-language=Shell
+bash/* linguist-language=Shell

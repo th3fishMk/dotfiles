@@ -1,12 +1,3 @@
-if [ -f /etc/bashrc ]; then
-    . /etc/bashrc
-fi
-
-if ! [[ "$PATH" =~ $HOME/.local/bin:$HOME/bin: ]]; then
-    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
-fi
-export PATH
-
 # Shell History
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -19,14 +10,14 @@ fi
 bind '"\e[A": history-search-backward'
 bind '"\e[B": history-search-forward'
 
-# Aliases
-if [ -f "$HOME/.bash-aliases" ]; then
-    . "$HOME/.bash-aliases"
+# Aliases and functions
+if [ -f "$HOME/.dotfiles/bash/.bash-aliases" ]; then
+    . "$HOME/.dotfiles/bash/.bash-aliases"
 fi
-# Functions
-if [ -f "$HOME/.bash-functions" ]; then
-    . "$HOME/.bash-functions"
+if [ -f "$HOME/.dotfiles/bash/.bash-functions" ]; then
+    . "$HOME/.dotfiles/bash/.bash-functions"
 fi
+
 # Add bin dir to path
 if [ -d "$HOME/.dotfiles/bin" ]; then
     PATH="$HOME/.dotfiles/bin:$PATH"

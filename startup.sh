@@ -1,40 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-sudo bash -c 'cat << EOF >> /etc/dnf/dnf.conf
-max_parallel_downloads=10
-fastestmirror=True
-defaultyes=True
-EOF'
-
-echo "Upgrading system packages..."
-sudo dnf upgrade --refresh -y
-
-sudo dnf install -y curl wget git vim fastfetch
-
-DOTFILES_DIR="$HOME/.dotfiles"
-
-# If running for the first time, the script clones itself/the repo into the hidden directory
-if [ ! -d "$DOTFILES_DIR" ]; then
-    echo "Cloning repository to local environment..."
-    git clone "https://codeberg.org/th3fishMk/dotfiles.git" "$DOTFILES_DIR"
-fi
-
-link_config() {
-    local source_file="$1"
-    local target_file="$2"
-    mkdir -p "$(dirname "$target_file")"
-    if [ -e "$target_file" ] && [ ! -L "$target_file" ]; then
-        echo "Creating backup: $target_file.bak"
-        mv "$target_file" "$target_file".bak
-    fi
-    ln -sf "$source_file" "$target_file"
-}
-
-link_config "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
-link_config "$DOTFILES_DIR/bash/.bash-aliases" "$HOME/.bash-aliases"
-link_config "$DOTFILES_DIR/bash/.bash-functions" "$HOME/.bash-functions"
-
 # Rename the Hostname
 echo "Configuring system name..."
 RENAME_CHOICE=""
@@ -54,3 +20,39 @@ if [[ "$RENAME_CHOICE" == "y" || "$RENAME_CHOICE" == "yes" ]]; then
 else
     echo "Skipping hostname configuration, keeping default or current."
 fi
+
+sudo dnf config-manager \
+    --setopt=max_parallel_downloads=10 \
+    --setopt=fastestmirror=True \
+    --setopt=defaultyes=True \
+    --setopt=ip_resolve=4 \
+    --save
+
+sudo dnf upgrade --refresh -y
+
+sudo dnf install -y curl wget git vim fastfetch
+
+DOTFILES_DIR="$HOME/.dotfiles"
+
+# If running for the first time, the script clones itself/the repo into the hidden directory
+if [ ! -d "$DOTFILES_DIR" ]; then
+    echo "Cloning repository to local environment..."
+    git clone "https://github.com/th3fishMk/dotfiles.git" "$DOTFILES_DIR"
+fi
+
+grep -qF 'source "$HOME/.dotfiles/bash/.bashrc"' "$HOME/.bashrc" || echo '[ -f "$HOME/.dotfiles/bash/.bashrc" ] && source "$HOME/.dotfiles/bash/.bashrc"' >>"$HOME/.bashrc"
+
+# link_config() {
+#     local source_file="$1"
+#     local target_file="$2"
+#     mkdir -p "$(dirname "$target_file")"
+#     if [ -e "$target_file" ] && [ ! -L "$target_file" ]; then
+#         echo "Creating backup: $target_file.bak"
+#         mv "$target_file" "$target_file".bak
+#     fi
+#     ln -sf "$source_file" "$target_file"
+# }
+
+# link_config "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
+# link_config "$DOTFILES_DIR/bash/.bash-aliases" "$HOME/.bash-aliases"
+# link_config "$DOTFILES_DIR/bash/.bash-functions" "$HOME/.bash-functions"
