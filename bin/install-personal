@@ -6,7 +6,16 @@ flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.f
 # Enable RPM Fusion if not already done (required for clean, hardware-accelerated media)
 sudo dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-"$(rpm -E %fedora)".noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 
-sudo dnf install -y steam meld obs-studio obs-studio-plugin-x264 obs-studio-plugin-distroav syncthing
+sudo dnf install -y \
+    steam \
+    meld \
+    obs-studio \
+    obs-studio-plugin-x264 \
+    obs-studio-plugin-distroav \
+    syncthing \
+    discord
+
+sudo dnf remove libreoffice*
 
 # syncthing service
 sudo systemctl enable --now syncthing@USER.service
@@ -17,14 +26,19 @@ curl -fsS https://dl.brave.com/install.sh | sh
 echo "Installing flatpaks"
 
 APPS=(
-    "org.onlyoffice.desktopeditors"
+    "cc.arduino.arduinoide"
     "com.belmoussaoui.Authenticator"
+    "com.github.huluti.Coulr"
+    "com.google.Chrome"
+    "io.github.nate_xyz.Paleta"
+    "io.github.nokse22.asciidraw"
+    "io.github.nokse22.Exhibit"
+    "io.github.nokse22.minitext"
     "org.chromium.Chromium"
     "org.inkscape.Inkscape"
     "org.kde.haruna"
     "org.kde.krita"
-    "com.discordapp.Discord"
-    "com.google.Chrome"
+    "org.onlyoffice.desktopeditors"
     "page.codeberg.impromptux.ytdl-gui"
 )
 

@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# Stop ignoring symbols when sorting
+export LC_COLLATE=C
+
 # Shell History
 HISTSIZE=10000
 HISTFILESIZE=20000
@@ -86,25 +91,7 @@ build_prompt() {
 
 PROMPT_COMMAND="build_prompt; $PROMPT_COMMAND"
 
-# # Rust stuff
-# if [ -f "$HOME/.cargo/env" ]; then
-#     . "$HOME/.cargo/env"
-# fi
-
-# # Nvm
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# # pnpm
-# export PNPM_HOME="/home/$USER/.local/share/pnpm"
-# case ":$PATH:" in
-# *":$PNPM_HOME/bin:"*) ;;
-# *) export PATH="$PNPM_HOME/bin:$PATH" ;;
-# esac
-# # pnpm end
-
-# # More pretty stuff in the terminal
-# if command -v fastfetch &>/dev/null; then
-#     fastfetch
-# fi
+# More pretty stuff in the terminal
+if command -v fastfetch &>/dev/null; then
+    fastfetch
+fi

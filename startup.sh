@@ -21,11 +21,11 @@ else
     echo "Skipping hostname configuration, keeping default or current."
 fi
 
-sudo dnf config-manager \
-    --setopt=max_parallel_downloads=10 \
-    --setopt=fastestmirror=True \
-    --setopt=defaultyes=True \
-    --setopt=ip_resolve=4
+sudo dnf config-manager setopt \
+    max_parallel_downloads=10 \
+    fastestmirror=True \
+    defaultyes=True \
+    ip_resolve=4
 
 sudo dnf upgrade --refresh -y
 
