@@ -4,8 +4,12 @@
 # It will default to the current directory
 
 DIR=${1:-$(pwd)}
+
+TERM_WIDTH=$(tput cols 2>/dev/null || echo 80)
+SEPARATOR=$(printf '%*s' "$TERM_WIDTH" '' | tr ' ' '-')
+
 echo "Scanning subdirectories in: $DIR"
-echo "------------------------------------------------------------------"
+echo "$SEPARATOR"
 
 for repo in "$DIR"/*/; do
     repo_name=$(basename "${repo%/}")
@@ -19,36 +23,27 @@ for repo in "$DIR"/*/; do
         cd "$repo" || exit
         statuses=()
 
-        # Check for unstaged/uncommitted changes
-        if ! git diff --quiet 2>/dev/null || ! git diff --cached --quiet 2>/dev/null; then
-            statuses+=("\033[0;31mUnstaged/uncommitted changes\033[0m")
-        fi
-
-        # Check for empty repositories (no commits yet)
         if ! git rev-parse --verify HEAD >/dev/null 2>&1; then
             statuses+=("\033[0;33mEmpty repository (no commits)\033[0m")
-        # Check for un-pushed commits if branch has an upstream remote
-        elif git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
-            if git rev-list --count --left-only @{u}...HEAD 2>/dev/null | grep -qv '^0$'; then
-                statuses+=("\033[0;31mUn-pushed commits\033[0m")
-            fi
-        # Check for commits in local-only repositories
         else
-            if git rev-list --count HEAD 2>/dev/null | grep -qv '^0$'; then
-                statuses+=("\033[0;31mUn-pushed commits (no remote)\033[0m")
+            if [ -n "$(git status --porcelain 2>/dev/null)" ]; then
+                statuses+=("\033[0;31mUncommitted/untracked changes\033[0m")
+            fi
+
+            if git rev-parse --abbrev-ref --symbolic-full-name @{u} >/dev/null 2>&1; then
+                unpushed_count=$(git rev-list --count @{u}..HEAD 2>/dev/null)
+                if [ "${unpushed_count:-0}" -gt 0 ]; then
+                    statuses+=("\033[0;31mUn-pushed commits ($unpushed_count ahead)\033[0m")
+                fi
             fi
         fi
-
-        # If array is empty, the repository is clean
         if [ ${#statuses[@]} -eq 0 ]; then
             status_str="\033[0;32mclean\033[0m"
         else
-            # Join multiple statuses with commas if any exist
             IFS=", "
             status_str="${statuses[*]}"
         fi
 
-        # Print with fixed column width (25 characters for repo name)
         printf "%-25s | %b\n" "$repo_name" "$status_str"
     )
 done
