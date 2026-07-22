@@ -15,27 +15,32 @@ sudo dnf install -y \
     gparted \
     gnome-disks \
     fastfetch \
-    openssl-devel \
     curl \
     wget \
-    file \
     htop \
     tldr \
     jq \
     shellcheck \
     webkit2gtk4.1-devel \
+    golang \
+    shfmt \
+    steam \
+    meld \
+    obs-studio \
+    obs-studio-plugin-x264 \
+    obs-studio-plugin-distroav \
+    syncthing \
+    discord
+
+sudo systemctl enable --now syncthing@USER.service
+
+# Tauri-specific
+sudo dnf install webkit2gtk4.1-devel \
+    openssl-devel \
+    file \
     libappindicator-gtk3-devel \
     librsvg2-devel \
-    libxdo-devel \
-    golang \
-    shfmt
-
-# Rust
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-cargo install create-tauri-app --locked
-
-# Zed Editor
-curl -f https://zed.dev/install.sh | sh
+    libxdo-devel
 
 # vscode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
@@ -55,18 +60,22 @@ metadata_expire=1h
 EOF
 sudo dnf install codium -y
 
-# Download and install nvm:
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.5/install.sh | bash
-# Prevent resourcing
-\. "$HOME/.nvm/nvm.sh"
-nvm install 24
+sudo dnf remove libreoffice*
+# syncthing service
 
-# Installing global stuff
-npm install -g pnpm@latest-11
-npm install -g typescript
+sudo dnf install -y flatpak
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
-# Unity
-# sudo sh -c 'echo -e "[unityhub]\nname=Unity Hub\nbaseurl=https://hub.unity3d.com/linux/repos/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://hub.unity3d.com/linux/repos/rpm/stable/repodata/repomd.xml.key\nrepo_gpgcheck=1" > /etc/yum.repos.d/unityhub.repo'
-# sudo dnf check-update
-# sudo dnf install unityhub -y
-# sudo dnf install dotnet-sdk-10.0 -y
+sudo dnf remove docker \
+    docker-client \
+    docker-client-latest \
+    docker-common \
+    docker-latest \
+    docker-latest-logrotate \
+    docker-logrotate \
+    docker-selinux \
+    docker-engine-selinux \
+    docker-engine
+
+sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
