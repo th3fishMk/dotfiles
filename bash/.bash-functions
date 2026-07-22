@@ -1,5 +1,4 @@
 #!/bin/bash
-# shellcheck disable=SC2148
 quick-commit() {
     local message="${1:-Auto-commit update}"
     git add .
@@ -27,6 +26,20 @@ sysUp() {
     fi
 
     echo "=== All updates finished successfully ==="
+}
+
+git-quick-clone() {
+    local input="$1"
+
+    if [[ "$input" == cb:* ]]; then
+        local repo="${input#cb:}"
+        git clone "git@codeberg.org:${repo}.git"
+    elif [[ "$input" == gh:* ]]; then
+        local repo="${input#gh:}"
+        git clone "git@github.com:${repo}.git"
+    else
+        git clone "git@github.com:${input}.git"
+    fi
 }
 
 # # removes all subdir in a file, moves the file and delete empty folders

@@ -1,7 +1,5 @@
 #!/bin/bash
-
-echo "Today is " "$(date)"
-echo "Configuring secure, minimal development environment..."
+echo "Installing dev things"
 
 sudo dnf -y update
 
@@ -32,20 +30,13 @@ sudo dnf install -y \
     libxdo-devel \
     golang \
     shfmt
-# mscore-fonts-all \
-
-# Zed Editor
-curl -f https://zed.dev/install.sh | sh
 
 # Rust
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 cargo install create-tauri-app --locked
 
-# Unity
-# sudo sh -c 'echo -e "[unityhub]\nname=Unity Hub\nbaseurl=https://hub.unity3d.com/linux/repos/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://hub.unity3d.com/linux/repos/rpm/stable/repodata/repomd.xml.key\nrepo_gpgcheck=1" > /etc/yum.repos.d/unityhub.repo'
-# sudo dnf check-update
-# sudo dnf install unityhub -y
-# sudo dnf install dotnet-sdk-10.0 -y
+# Zed Editor
+curl -f https://zed.dev/install.sh | sh
 
 # vscode
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
@@ -74,3 +65,9 @@ nvm install 24
 # Installing global stuff
 npm install -g pnpm@latest-11
 npm install -g typescript
+
+# Unity
+# sudo sh -c 'echo -e "[unityhub]\nname=Unity Hub\nbaseurl=https://hub.unity3d.com/linux/repos/rpm/stable\nenabled=1\ngpgcheck=1\ngpgkey=https://hub.unity3d.com/linux/repos/rpm/stable/repodata/repomd.xml.key\nrepo_gpgcheck=1" > /etc/yum.repos.d/unityhub.repo'
+# sudo dnf check-update
+# sudo dnf install unityhub -y
+# sudo dnf install dotnet-sdk-10.0 -y

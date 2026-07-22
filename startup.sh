@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
 
 # Rename the Hostname
@@ -25,8 +25,7 @@ sudo dnf config-manager \
     --setopt=max_parallel_downloads=10 \
     --setopt=fastestmirror=True \
     --setopt=defaultyes=True \
-    --setopt=ip_resolve=4 \
-    --save
+    --setopt=ip_resolve=4
 
 sudo dnf upgrade --refresh -y
 

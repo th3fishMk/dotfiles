@@ -1,0 +1,24 @@
+#!/bin/bash
+
+echo "Configuring Git"
+
+read -p "Enter your full name (e.g. John Doe): " git_name
+read -p "Enter your email: " git_email
+
+if [ -n "$git_name" ]; then
+    git config --global user.name "$git_name"
+fi
+
+if [ -n "$git_email" ]; then
+    git config --global user.email "$git_email"
+fi
+
+read -p "Enter your preferred Git editor [nano]: " git_editor
+git_editor=${git_editor:-nano}
+git config --global core.editor "$git_editor"
+
+git config --global pull.rebase true
+git config --global push.autoSetupRemote true
+git config --global color.ui auto
+echo "Git setup complete! Current config:"
+git config --global --list
