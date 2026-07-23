@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -e
+
 echo "Installing custom fedora tools..."
 
 echo "Optimizing DNF"
