@@ -60,3 +60,14 @@ else
     echo "Error: Installation script not found at $INSTALL_SCRIPT" >&2
     exit 1
 fi
+
+glob_installs="$DOTFILES_DIR/bin/glob-installs.sh"
+if [ -f "$glob_installs" ]; then
+    echo "Executing: $glob_installs"
+    bash "$glob_installs"
+else
+    echo "Error: glob script not found at: $glob_installs" >&2
+    exit 1
+fi
+
+echo "Finished successfully"
