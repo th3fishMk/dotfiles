@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # Prints the status of all the git repositories
 # Inside a folder, if no folder is indicated
 # It will default to the current directory

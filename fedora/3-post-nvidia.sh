@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 sudo dnf install vulkan
 sudo dnf install xorg-x11-drv-nvidia-cuda-libs

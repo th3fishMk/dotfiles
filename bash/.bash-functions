@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 quick-commit() {
     local message="${1:-Auto-commit update}"
     git add .

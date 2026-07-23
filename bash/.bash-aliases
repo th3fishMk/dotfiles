@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # System Management
 alias reSource="source ~/.bashrc"

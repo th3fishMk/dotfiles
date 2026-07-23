@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Stop ignoring symbols when sorting
 export LC_COLLATE=C

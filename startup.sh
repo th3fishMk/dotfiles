@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 set -e
 
-# Rename the Hostname
 echo "Configuring system name..."
 RENAME_CHOICE=""
 read -rp "Do you want to rename this computer? (y/N): " RENAME_CHOICE
@@ -21,19 +21,21 @@ else
     echo "Skipping hostname configuration, keeping default or current."
 fi
 
-sudo dnf config-manager setopt \
-    max_parallel_downloads=10 \
-    fastestmirror=True \
-    defaultyes=True \
-    ip_resolve=4
-
-sudo dnf upgrade --refresh -y
-
-sudo dnf install -y curl wget git vim fastfetch
+# Ensure git is installed before proceeding
+if ! command -v git &>/dev/null; then
+    echo "Git not found. Installing Git..."
+    if command -v dnf &>/dev/null; then
+        sudo dnf install -y git
+    elif command -v apt &>/dev/null; then
+        sudo apt update && sudo apt install -y git
+    else
+        echo "Error: Neither dnf nor apt package manager was found to install Git." >&2
+        exit 1
+    fi
+fi
 
 DOTFILES_DIR="$HOME/.dotfiles"
 
-# If running for the first time, the script clones itself/the repo into the hidden directory
 if [ ! -d "$DOTFILES_DIR" ]; then
     echo "Cloning repository to local environment..."
     git clone "https://github.com/th3fishMk/dotfiles.git" "$DOTFILES_DIR"
@@ -41,17 +43,20 @@ fi
 
 grep -qF 'source "$HOME/.dotfiles/bash/.bashrc"' "$HOME/.bashrc" || echo '[ -f "$HOME/.dotfiles/bash/.bashrc" ] && source "$HOME/.dotfiles/bash/.bashrc"' >>"$HOME/.bashrc"
 
-# link_config() {
-#     local source_file="$1"
-#     local target_file="$2"
-#     mkdir -p "$(dirname "$target_file")"
-#     if [ -e "$target_file" ] && [ ! -L "$target_file" ]; then
-#         echo "Creating backup: $target_file.bak"
-#         mv "$target_file" "$target_file".bak
-#     fi
-#     ln -sf "$source_file" "$target_file"
-# }
+echo "Figuring out which install script to run"
+if command -v dnf &>/dev/null; then
+    INSTALL_SCRIPT="$DOTFILES_DIR/fedora/installs.sh"
+elif command -v apt &>/dev/null; then
+    INSTALL_SCRIPT="$DOTFILES_DIR/ubuntu/installs.sh"
+else
+    echo "Error: Unable to detect supported package manager (dnf/apt)." >&2
+    exit 1
+fi
 
-# link_config "$DOTFILES_DIR/bash/.bashrc" "$HOME/.bashrc"
-# link_config "$DOTFILES_DIR/bash/.bash-aliases" "$HOME/.bash-aliases"
-# link_config "$DOTFILES_DIR/bash/.bash-functions" "$HOME/.bash-functions"
+if [ -f "$INSTALL_SCRIPT" ]; then
+    echo "Running installation script: $INSTALL_SCRIPT"
+    bash "$INSTALL_SCRIPT"
+else
+    echo "Error: Installation script not found at $INSTALL_SCRIPT" >&2
+    exit 1
+fi

@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 # Usage: git-clone <github-username> <destination-dir>
 # Clones all the repos (up to 1000) from one github user, or organization
 # Into a specific dir, using SSH
