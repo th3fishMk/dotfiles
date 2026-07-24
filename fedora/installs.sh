@@ -78,8 +78,7 @@ sudo systemctl enable --now syncthing@USER.service
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "Performing some necessary clean up"
-sudo dnf remove
-sudo dnf remove docker \
+sudo dnf remove docker -y \
     docker-client \
     docker-client-latest \
     docker-common \
@@ -92,5 +91,5 @@ sudo dnf remove docker \
     libreoffice*
 
 echo "Installing docker"
-sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo
-sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo dnf config-manager addrepo --from-repofile https://download.docker.com/linux/fedora/docker-ce.repo -y
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
