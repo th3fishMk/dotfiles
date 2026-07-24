@@ -4,6 +4,7 @@ echo "Configuring Git"
 
 read -p "Enter your full name (e.g. John Doe): " git_name
 read -p "Enter your email: " git_email
+read -p "Enter default name for branches: " git_branch
 
 if [ -n "$git_name" ]; then
     git config --global user.name "$git_name"
@@ -11,6 +12,10 @@ fi
 
 if [ -n "$git_email" ]; then
     git config --global user.email "$git_email"
+fi
+
+if [ -n "$git_branch" ]; then
+    git config --global init.defaultBranch "$git_branch"
 fi
 
 read -p "Enter your preferred Git editor [nano]: " git_editor
