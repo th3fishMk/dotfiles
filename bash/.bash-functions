@@ -36,3 +36,39 @@ sysUp() {
 
     echo "=== All updates finished successfully ==="
 }
+
+lll() {
+    LC_COLLATE=C command ls -la --color=always "$@" | awk '
+    BEGIN {
+        # Color codes matching your diagram
+        c_type  = "\033[90m" # Grey
+        c_owner = "\033[94m" # Blue
+        c_group = "\033[32m" # Green
+        c_other = "\033[33m" # Orange
+        c_reset = "\033[0m"
+
+        # Explicitly 10-character wide permission header:
+        # T (1) + OWN (3) + GRP (3) + OTH (3) = 10 characters exact
+        p_hdr = sprintf("%sT%sOWN%sGRP%sOTH%s", c_type, c_owner, c_group, c_other, c_reset)
+
+        # Print header bar aligned to standard "ls -l" field widths
+        printf "%s LINKS OWNER     GROUP         SIZE DATE         NAME\n", p_hdr
+        print "----------------------------------------------------------------------"
+    }
+    NR == 1 { next } # Skip original "total" line
+    {
+        perms = $1
+        if (length(perms) >= 10) {
+            type  = substr(perms, 1, 1)   # File type (Grey)
+            owner = substr(perms, 2, 3)   # Owner/User (Blue)
+            group = substr(perms, 5, 3)   # Group (Green)
+            other = substr(perms, 8, 3)   # Others (Orange)
+            rest  = substr(perms, 11)     # ACL/Selinux dots or spaces
+
+            colored_perms = sprintf("%s%s%s%s%s%s%s%s%s", c_type, type, c_owner, owner, c_group, group, c_other, other, c_reset, rest)
+            
+            sub(/^[^ ]+/, colored_perms, $0)
+        }
+        print $0
+    }'
+}
