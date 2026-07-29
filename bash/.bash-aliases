@@ -3,17 +3,18 @@
 # System Management
 alias reSource="source ~/.bashrc"
 alias ll="ls -la --color=auto"
+alias count="ls -l . | egrep -c '^-'"
 
 alias g="git"
 alias gg="git status"
-alias g-github="git remote add github"
-alias g-codeberg="git remote add codeberg"
 alias gl="git log --graph --oneline --decorate --all"
 alias ga="git add"
 alias gaa="git add --all"
 alias gco="git checkout"
 alias gb="git branch"
-alias gdiscard="git restore ."
+alias g-github="git remote add github"
+alias g-codeberg="git remote add codeberg"
+alias g-discard="git restore ."
 
 alias biomize="pnpm add -D -E @biomejs/biome && pnpx @biomejs/biome init"
 
