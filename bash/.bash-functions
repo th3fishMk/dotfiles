@@ -37,7 +37,7 @@ sysUp() {
     echo "=== All updates finished successfully ==="
 }
 
-lll() {
+ll() {
     LC_COLLATE=C command ls -la --color=always "$@" | awk '
     BEGIN {
         # Color codes matching your diagram

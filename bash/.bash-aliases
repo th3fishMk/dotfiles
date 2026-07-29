@@ -2,7 +2,7 @@
 
 # System Management
 alias reSource="source ~/.bashrc"
-alias ll="ls -la --color=auto"
+alias lll="ls -la --color=auto"
 
 alias g="git"
 alias gg="git status"
