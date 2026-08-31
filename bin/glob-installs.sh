@@ -31,7 +31,6 @@ if [ "$IS_WSL" = false ]; then
 
     echo "--> Installing Flatpak Packages"
     APPS=(
-        "cc.arduino.arduinoide"
         "com.belmoussaoui.Authenticator"
         "com.github.huluti.Coulr"
         "com.google.Chrome"
