@@ -19,39 +19,22 @@ sudo dnf install -y \
     https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-"$(rpm -E %fedora)".noarch.rpm
 sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
-echo "Enabling vscode and codium repos"
-sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc &&
-    echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" | sudo tee /etc/yum.repos.d/vscode.repo >/dev/null
-sudo tee -a /etc/yum.repos.d/vscodium.repo <<'EOF'
-[gitlab.com_paulcarroty_vscodium_repo]
-name=gitlab.com_paulcarroty_vscodium_repo
-baseurl=https://paulcarroty.gitlab.io/vscodium-deb-rpm-repo/rpms/
-enabled=1
-gpgcheck=1
-repo_gpgcheck=1
-gpgkey=https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg
-metadata_expire=1h
-EOF
-
 # Install essential dev libs, virtualization, and base system tools
 echo "Installing base tools via dnf"
 sudo dnf install -y \
     @c-development \
     @development-tools \
     @virtualization \
-    code \
-    codium \
     curl \
     discord \
     fastfetch \
     flatpak \
+    git \
     gnome-disks \
     golang \
     gparted \
-    git \
     htop \
     jq \
-    vim \
     meld \
     obs-studio \
     obs-studio-plugin-distroav \
@@ -61,6 +44,7 @@ sudo dnf install -y \
     steam \
     syncthing \
     tldr \
+    vim \
     wget
 
 echo "Installing tauri dependencies"

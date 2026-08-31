@@ -3,4 +3,6 @@ bin/* linguist-language=Shell
 scripts/* linguist-language=Shell
 bash/* linguist-language=Shell
 
-other/* linguist-vendored
+*.qml linguist-vendored
+*.ui linguist-vendored
+*.kwinscript linguist-vendored
