@@ -23,7 +23,6 @@ echo "Installing fonts"
 sudo dnf install google-noto-fonts-all
 # 😀 😁 😂 🤣 😊 😇 🙂 😉 😌 😍 😘 😜 🤪 🤨 🧐 🤓 😎 🥸 🤩 🥰 😂 🤔 🤭 🤫 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤐 🤨 😬 🙄 😯 😮 😲 🥱 😴 🤤 😪 😵 🤫 🤧 🥴 🤢 🤮 🤧 😷 🤒 🤕 👋 🤚 🖐️ ✋ 🖖 👌 🤏 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝️ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🙏 💪 🦾 🦵 🦶 👂 👃 👀 👁️ 👄 🧠 🫀 🫁 🦷 🦴 👶 👦 👧 👨 👩 🧓 👴 👵 🙍 🙎 🙅 🙆 💁 🙋 🧏 🙇 🤦 🤷 👮 🕵️ 💂 🥷 👷 🤴 👸 👰 🤵 👼 🎅 🤶 🦸 🦹 🧛 🧞 🧟 💀 🧌 👻 🧑‍⚕️ 🧑‍🎓 🧑‍🏫 🧑‍⚖️ 🧑‍🌾 🧑‍🍳 🧑‍🔧 🧑‍🏭 🧑‍💼 🧑‍🔬 🧑‍💻 🧑‍🎤 🧑‍🎨 🧑‍✈️ 🧑‍🚀 🧑‍🚒 🧑‍⚕️ 👩‍🍼 👨‍🍼 🤱 👩‍🍼 👨‍🍼 👩‍👦 👩‍👧 👨‍👦 👨‍👧 👩‍👧‍👦 👨‍👧‍👦 👩‍👨‍👦 👨‍👨‍👦 👩‍👩‍👦 👩‍👨‍👧 👨‍👨‍👧 👩‍👩‍👧 👩‍👨‍👧‍👦 👨‍👨‍👧‍👦 👩‍👩‍👧‍👦 👩‍👩‍👦‍👦 👨‍👨‍👦‍👦 👩‍👩‍👧‍👧 👨‍👨‍👧‍👧 👩‍👦 👨‍👦 👩‍👧 👨‍👧 💏 💑 👬 👭 ❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 ❣️ 💕 💞 💓 💗 💖 💘 💝 💟 ☮️ ✝️ ☦️ ☪️ 🕉️ ☸️ ✡️ 🕎 🔯 ☯️ ☬ 📿 🛐 ⚛️ 🛕 🕋 ⛩️ 🛤️ 🛣️ 🗺️ 🗾 🏞️ 🌋 ⛰️ 🌋 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐻‍❄️ 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐔 🐧 🐦 🐤 🦆 🦅 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐞 🐜 🪲 🦟 🦗 🕷️ 🕸️ 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦐 🦞 🦀 🐡 🐠 🐟 🐬 🐳 🐋 🦈 🐊 🐅 🐆 🦓 🦍 🦧 🦣 🐘 🦛 🦏 🐪 🐫 🦒 🦘 🦬 🐃 🐂 🐄 🐎 🐖 🐏 🐑 🐐 🦌 🐕 🐩 🐈 🐈‍⬛ 🐓 🦃 🦤 🦚 🦜 🦢 🦩 🕊️ 🐇 🦝 🦨 🦡 🦫 🦦 🦥 🐁 🐀 🐿️ 🦔 🌵 🎄 🌲 🌳 🌴 🌱 🌿 ☘️ 🍀 🎍 🪴 🎋 🍃 🍂 🍁 🍄 🌾 💐 🌷 🌹 🥀 🌺 🌸 🌼 🌻 🌞 🌝 🌛 🌜 🌚 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 🌙 🌎 🌍 🌏 💫 ⭐️ 🌟 ✨ ⚡️ ☄️ 💥 🔥 🌈 ☀️ 🌤️ ⛅️ 🌥️ ☁️ 🌦️ 🌧️ ⛈️ 🌩️ 🌨️ ❄️ ☃️ ⛄️ 🌬️ 💨 🌪️ 🌫️ 🌁 💧 💦 🫧 🌊 ☔️ 🌂 🏕️ 🏠 🏡 🏢 🏣 🏤 🏥 🏦 🏨 🏩 💒 🏪 🏫 🏬 🏭 🏯 🏰 💒 🗼 🗽 🗿 🗽 🎠 🎡 🎢 💈 🎪 🚂 🚃 🚄 🚅 🚆 🚇 🚈 🚉 🚊 🚝 🚞 🚋 🚌 🚍 🚎 🚐 🚑 🚒 🚓 🚔 🚕 🚖 🚗 🚘 🚙 🚚 🚛 🚜 🛴 🚲 🛵 🏍️ 🛺 🚨 🚔 🚑 🚒 🚐 🚓 🛞 🚦 🚥 🛣️ 🛤️ 🛢️ ⛽ 🚧 🚏 ⚓ 🚤 🛥️ 🛳️ ⛴️ 🚢 ⛵ 🛶 🚁 🛩️ ✈️ 🛫 🛬 🛸 🚀 🛶 ⛵ 🚀 🛸 🎈 🎏 🎀 🎁 🎊 🎉 🎎 🏮 🎐 🎌 🏴 🏳️ 🏁 🚩 🎌
 
-
 # Install essential dev libs, virtualization, and base system tools
 echo "Installing base tools via dnf"
 sudo dnf install -y \
@@ -62,12 +61,12 @@ sudo dnf install -y \
     libxdo-devel
 
 echo "Enabling system services"
-sudo systemctl enable --now syncthing@USER.service
-
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+# sudo systemctl enable --now syncthing@USER.service
+systemctl --user enable --now syncthing.service
+sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
 echo "Performing some necessary clean up"
-sudo dnf remove docker -y \
+sudo dnf remove -y docker \
     docker-client \
     docker-client-latest \
     docker-common \
