@@ -31,6 +31,10 @@ fi
 if [ -d "$HOME/.dotfiles/scripts" ]; then
     PATH="$HOME/.dotfiles/scripts:$PATH"
 fi
+# Add our binaries to the path
+if [ -d "$HOME/.bins" ]; then
+    PATH="$HOME/.bins:$PATH"
+fi
 export PATH
 
 # making terminal pretty
