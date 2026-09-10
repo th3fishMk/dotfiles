@@ -1,0 +1,153 @@
+// Zed keymap
+//
+// For information on binding keys, see the Zed
+// documentation: https://zed.dev/docs/key-bindings
+//
+// To see the default key bindings run `zed: open default keymap`
+// from the command palette.
+[
+    {
+        "context": "Workspace",
+        "bindings": {
+            // "shift shift": "file_finder::Toggle"
+        },
+    },
+    {
+        "context": "Editor && vim_mode == insert",
+        "bindings": {
+            // "j k": "vim::NormalBefore"
+        },
+    },
+    {
+        "context": "RunModal",
+        "unbind": {
+            "ctrl-tab": "pane::ActivateNextItem",
+        },
+    },
+    {
+        "context": "AgentPanel",
+        "unbind": {
+            "ctrl-tab": "agents_sidebar::ToggleThreadSwitcher",
+        },
+    },
+    {
+        "context": "ThreadsSidebar",
+        "unbind": {
+            "ctrl-tab": "agents_sidebar::ToggleThreadSwitcher",
+        },
+    },
+    {
+        "context": "ThreadSwitcher",
+        "unbind": {
+            "ctrl-tab": "agents_sidebar::ToggleThreadSwitcher",
+        },
+    },
+    {
+        "context": "Workspace",
+        "unbind": {
+            "ctrl-shift-tab": [
+                "tab_switcher::Toggle",
+                {
+                    "select_last": true,
+                },
+            ],
+        },
+    },
+    {
+        "bindings": {
+            "ctrl-tab": "tab_switcher::ToggleAll",
+        },
+    },
+    {
+        "context": "ThreadSwitcher",
+        "unbind": {
+            "ctrl-shift-tab": [
+                "agents_sidebar::ToggleThreadSwitcher",
+                {
+                    "select_last": true,
+                },
+            ],
+        },
+    },
+    {
+        "context": "ThreadsSidebar",
+        "unbind": {
+            "ctrl-shift-tab": [
+                "agents_sidebar::ToggleThreadSwitcher",
+                {
+                    "select_last": true,
+                },
+            ],
+        },
+    },
+    {
+        "context": "AgentPanel",
+        "unbind": {
+            "ctrl-shift-tab": [
+                "agents_sidebar::ToggleThreadSwitcher",
+                {
+                    "select_last": true,
+                },
+            ],
+        },
+    },
+    {
+        "bindings": {
+            "ctrl-\\": "workspace::ActivateNextPane",
+        },
+    },
+    {
+        "context": "Editor",
+        "bindings": {
+            "ctrl-alt-right": [
+                "workspace::MoveItemToPaneInDirection",
+                { "direction": "right" },
+            ],
+        },
+    },
+    {
+        "context": "Editor",
+        "bindings": {
+            "ctrl-alt-left": [
+                "workspace::MoveItemToPaneInDirection",
+                { "direction": "left" },
+            ],
+        },
+    },
+    {
+        "context": "ThreadsSidebar",
+        "unbind": {
+            "ctrl-n": "agents_sidebar::NewThreadInGroup",
+        },
+    },
+    {
+        "context": "ThreadsSidebar",
+        "unbind": {
+            "ctrl-f": "agents_sidebar::FocusSidebarFilter",
+        },
+    },
+    {
+        "context": "ThreadsSidebar",
+        "unbind": {
+            "ctrl-g": "agents_sidebar::ToggleThreadHistory",
+        },
+    },
+    {
+        "context": "Pane",
+        "unbind": {
+            "ctrl-shift-pageup": "pane::SwapItemLeft",
+        },
+    },
+    {
+        "context": "Pane",
+        "unbind": {
+            "ctrl-shift-pagedown": "pane::SwapItemRight",
+        },
+    },
+    {
+        "context": "Workspace",
+        "unbind": {
+            "ctrl-tab": "tab_switcher::Toggle",
+        },
+    },
+]

@@ -1,0 +1,54 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+    "preview_tabs": {
+        "enabled": false,
+    },
+    "inline_code_actions": false,
+    "cli_default_open_behavior": "new_window",
+    "inlay_hints": {
+        "show_background": true,
+        "enabled": true,
+    },
+    "proxy": "",
+    "disable_ai": true,
+    "toolbar": {
+        "quick_actions": false,
+        "code_actions": false,
+    },
+    "minimap": {
+        "display_in": "all_editors",
+        "show": "always",
+    },
+    "show_whitespaces": "trailing",
+    "always_treat_brackets_as_autoclosed": true,
+    "soft_wrap": "editor_width",
+    "code_lens": "on",
+    "format_on_save": "on",
+    "autosave": {
+        "after_delay": {
+            "milliseconds": 1000,
+        },
+    },
+    "ui_font_size": 16,
+    "buffer_font_size": 15,
+    "theme": {
+        "mode": "system",
+        "light": "One Light",
+        "dark": "One Dark",
+    },
+    "buffer_font_fallbacks": ["Noto Color Emoji"],
+    "lsp": {
+        "markdownlint": {
+            "settings": {
+                "MD013": false,
+            },
+        },
+    },
+}

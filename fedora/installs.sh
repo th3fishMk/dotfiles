@@ -21,7 +21,8 @@ sudo dnf config-manager setopt fedora-cisco-openh264.enabled=1
 
 echo "Installing fonts"
 sudo dnf install google-noto-fonts-all
-# 😀 😁 😂 🤣 😊 😇 🙂 😉 😌 😍 😘 😜 🤪 🤨 🧐 🤓 😎 🥸 🤩 🥰 😂 🤔 🤭 🤫 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬 🤯 😳 🥵 🥶 😱 😨 😰 😥 😓 🤗 🤔 🤐 🤨 😬 🙄 😯 😮 😲 🥱 😴 🤤 😪 😵 🤫 🤧 🥴 🤢 🤮 🤧 😷 🤒 🤕 👋 🤚 🖐️ ✋ 🖖 👌 🤏 ✌️ 🤞 🤟 🤘 🤙 👈 👉 👆 🖕 👇 ☝️ 👍 👎 ✊ 👊 🤛 🤜 👏 🙌 👐 🤲 🙏 💪 🦾 🦵 🦶 👂 👃 👀 👁️ 👄 🧠 🫀 🫁 🦷 🦴 👶 👦 👧 👨 👩 🧓 👴 👵 🙍 🙎 🙅 🙆 💁 🙋 🧏 🙇 🤦 🤷 👮 🕵️ 💂 🥷 👷 🤴 👸 👰 🤵 👼 🎅 🤶 🦸 🦹 🧛 🧞 🧟 💀 🧌 👻 🧑‍⚕️ 🧑‍🎓 🧑‍🏫 🧑‍⚖️ 🧑‍🌾 🧑‍🍳 🧑‍🔧 🧑‍🏭 🧑‍💼 🧑‍🔬 🧑‍💻 🧑‍🎤 🧑‍🎨 🧑‍✈️ 🧑‍🚀 🧑‍🚒 🧑‍⚕️ 👩‍🍼 👨‍🍼 🤱 👩‍🍼 👨‍🍼 👩‍👦 👩‍👧 👨‍👦 👨‍👧 👩‍👧‍👦 👨‍👧‍👦 👩‍👨‍👦 👨‍👨‍👦 👩‍👩‍👦 👩‍👨‍👧 👨‍👨‍👧 👩‍👩‍👧 👩‍👨‍👧‍👦 👨‍👨‍👧‍👦 👩‍👩‍👧‍👦 👩‍👩‍👦‍👦 👨‍👨‍👦‍👦 👩‍👩‍👧‍👧 👨‍👨‍👧‍👧 👩‍👦 👨‍👦 👩‍👧 👨‍👧 💏 💑 👬 👭 ❤️ 🧡 💛 💚 💙 💜 🖤 🤍 🤎 💔 ❣️ 💕 💞 💓 💗 💖 💘 💝 💟 ☮️ ✝️ ☦️ ☪️ 🕉️ ☸️ ✡️ 🕎 🔯 ☯️ ☬ 📿 🛐 ⚛️ 🛕 🕋 ⛩️ 🛤️ 🛣️ 🗺️ 🗾 🏞️ 🌋 ⛰️ 🌋 🐶 🐱 🐭 🐹 🐰 🦊 🐻 🐼 🐻‍❄️ 🐨 🐯 🦁 🐮 🐷 🐸 🐵 🐔 🐧 🐦 🐤 🦆 🦅 🦉 🦇 🐺 🐗 🐴 🦄 🐝 🐛 🦋 🐌 🐞 🐜 🪲 🦟 🦗 🕷️ 🕸️ 🦂 🐢 🐍 🦎 🦖 🦕 🐙 🦑 🦐 🦞 🦀 🐡 🐠 🐟 🐬 🐳 🐋 🦈 🐊 🐅 🐆 🦓 🦍 🦧 🦣 🐘 🦛 🦏 🐪 🐫 🦒 🦘 🦬 🐃 🐂 🐄 🐎 🐖 🐏 🐑 🐐 🦌 🐕 🐩 🐈 🐈‍⬛ 🐓 🦃 🦤 🦚 🦜 🦢 🦩 🕊️ 🐇 🦝 🦨 🦡 🦫 🦦 🦥 🐁 🐀 🐿️ 🦔 🌵 🎄 🌲 🌳 🌴 🌱 🌿 ☘️ 🍀 🎍 🪴 🎋 🍃 🍂 🍁 🍄 🌾 💐 🌷 🌹 🥀 🌺 🌸 🌼 🌻 🌞 🌝 🌛 🌜 🌚 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 🌙 🌎 🌍 🌏 💫 ⭐️ 🌟 ✨ ⚡️ ☄️ 💥 🔥 🌈 ☀️ 🌤️ ⛅️ 🌥️ ☁️ 🌦️ 🌧️ ⛈️ 🌩️ 🌨️ ❄️ ☃️ ⛄️ 🌬️ 💨 🌪️ 🌫️ 🌁 💧 💦 🫧 🌊 ☔️ 🌂 🏕️ 🏠 🏡 🏢 🏣 🏤 🏥 🏦 🏨 🏩 💒 🏪 🏫 🏬 🏭 🏯 🏰 💒 🗼 🗽 🗿 🗽 🎠 🎡 🎢 💈 🎪 🚂 🚃 🚄 🚅 🚆 🚇 🚈 🚉 🚊 🚝 🚞 🚋 🚌 🚍 🚎 🚐 🚑 🚒 🚓 🚔 🚕 🚖 🚗 🚘 🚙 🚚 🚛 🚜 🛴 🚲 🛵 🏍️ 🛺 🚨 🚔 🚑 🚒 🚐 🚓 🛞 🚦 🚥 🛣️ 🛤️ 🛢️ ⛽ 🚧 🚏 ⚓ 🚤 🛥️ 🛳️ ⛴️ 🚢 ⛵ 🛶 🚁 🛩️ ✈️ 🛫 🛬 🛸 🚀 🛶 ⛵ 🚀 🛸 🎈 🎏 🎀 🎁 🎊 🎉 🎎 🏮 🎐 🎌 🏴 🏳️ 🏁 🚩 🎌
+# This emojis are just to check on my zed editor, which currently has some issues with emojis, but they should be visible as monochrome
+# 😀 😁 😂 🤣 😊 😇 🙂 😉 😌 😍 😘 😜 🤪 🤨 🧐 🤓 😎 🥸 🤩 🥰 😂 🤔 🤭 🤫 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 🥺 😢 😭 😤 😠 😡 🤬
 
 # Install essential dev libs, virtualization, and base system tools
 echo "Installing base tools via dnf"
@@ -49,7 +50,9 @@ sudo dnf install -y \
     syncthing \
     tldr \
     vim \
-    wget
+    wget \
+    dotnet-sdk-10.0 \
+    dotnet-sdk-8.0
 
 echo "Installing tauri dependencies"
 sudo dnf install -y \
@@ -61,7 +64,6 @@ sudo dnf install -y \
     libxdo-devel
 
 echo "Enabling system services"
-# sudo systemctl enable --now syncthing@USER.service
 systemctl --user enable --now syncthing.service
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 
